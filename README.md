@@ -1,4 +1,4 @@
-#Intro
+# Intro
 
 This is the materials and library management system in development for UAteach. I got lazy and didn't feel like calling
 it "Material reservation and library system" every time I referred to it, hence Javan was born.

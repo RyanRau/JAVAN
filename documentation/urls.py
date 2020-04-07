@@ -6,5 +6,5 @@ from . import views
 urlpatterns = [
     # /
     path('', views.index, name='documentation-index'),
-
+    path('documents/<str:doc_id>', views.getDocument, name="documentation-get-document")
 ]

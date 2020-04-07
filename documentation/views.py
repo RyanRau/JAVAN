@@ -1,13 +1,16 @@
-from django.http import HttpResponse
+import json
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 import os
 from glob import glob
 import markdown
 
+from documentation import indexing
 
 #  Markdown Documentation
 # https://python-markdown.github.io
 
+BASE_PATH = " ./documentation/documents"
 
 # .../documentation/
 def index(request):
@@ -18,9 +21,16 @@ def index(request):
     # html = markdown.markdownFromFile()
 
     context = {
-        'toc': x,
+        'toc': indexing.index,
     }
     return render(request, "documentation/index.html", context)
+
+
+
+def getDocument(request,  doc_id):
+    # Create file path
+    d = doc_id.split('-')
+    return render(request, "documentation/index.html")
 
 
 def getFileTree():
