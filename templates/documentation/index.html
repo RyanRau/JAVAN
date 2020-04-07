@@ -1,0 +1,28 @@
+<html>
+
+{{ toc }}
+
+<ul>
+   {% for c in  toc %}
+       {% if forloop.first %}
+           {% for x in c %}
+           <li>{{ x }}</li>
+           {% endfor %}
+
+       {% else %}
+           {% for x  in c %}
+               {% if forloop.first %}
+                    <li>{{ x }}</li><ul>
+               {% else %}
+                    <li>{{ x }}</li>
+               {% endif %}
+           {% endfor %}
+       </ul>
+       {% endif %}
+{% endfor %}
+
+
+</ul>
+
+
+</html>
