@@ -6,6 +6,7 @@ from glob import glob
 import markdown
 
 from documentation import indexing
+from documentation import demo
 
 #  Markdown Documentation
 # https://python-markdown.github.io
