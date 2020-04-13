@@ -6,5 +6,6 @@ from . import views
 urlpatterns = [
     # /
     path('', views.index, name='documentation-index'),
-    path('documents/<str:doc_id>', views.getDocument, name="documentation-get-document")
+    path('extras/toc', views.view_toc, name="documentation-extras-toc"),
+    path('documents/<int:file_id>', views.view_document, name="documentation-view-document")
 ]

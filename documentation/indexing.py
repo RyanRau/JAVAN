@@ -1,44 +1,85 @@
-import os
 from glob import glob
 from .models import Directory, File
 
-
 BASE_PATH = './documentation/documents/'
 IMAGE_FOLDER = 'images/'
+
 index = []
-x = os.walk(BASE_PATH)
-
-def excute():
-    root_directories = getDirectories(BASE_PATH)
-    # buildIndex(root_directories, '')
-
-    x = os.walk(BASE_PATH)
-
-    # deal with files in root dir
-    # index.append(getFiles(BASE_PATH, counter))
 
 
+def execute():
+    toc = create_toc(BASE_PATH)
+    return toc, index
 
-def getFiles(directory, index):
+
+def create_toc(directory):
+    toc = []
+    sub_directories = get_directories(directory)
+    if len(sub_directories) is 0:
+        # return
+        return create_directory_list(directory)
+    else:
+        for sub_directory in sub_directories:
+            tmp = []
+
+            directory_object = create_directory_object(sub_directory)
+            tmp.append(directory_object)
+
+            if has_sub_directories(sub_directory):
+                for x in create_toc(sub_directory):
+                    tmp.append(x)
+
+            tmp.extend(create_directory_list(sub_directory))
+
+            toc.append(tmp)
+
+    return toc
+
+
+def create_directory_list(directory):
+    tmp = []
+    files = glob(directory + '*.md')
+
+    for file in files:
+        tmp.append(create_file_object(file, directory))
+
+    return tmp
+
+
+def create_directory_object(directory):
+    directory_object = Directory()
+    directory_object.path = directory
+    directory_object.name = ((directory.replace(BASE_PATH, '')).replace('/', '')).replace('-', ' ')
+    return directory_object
+
+
+def create_file_object(file, directory):
+    file_object = File()
+
+    file_object.uuid = len(index)
+    index.append(file)
+
+    file_object.path = file
+
+    name = ((file.replace(directory, '')).replace('.md', '')).replace('-', ' ')
+    file_object.name = name
+    return file_object
+
+
+def get_files(directory):
     files = glob(directory + '*.md')
     tmp = []
 
     counter = 0
     for file in files:
-        new_file = File()
-        new_file.uuid = str(index) + "-" + str(counter)
-        new_file.path = file
-
         name = ((file.replace(directory, '')).replace('.md', '')).replace('-', ' ')
-        new_file.name = name
-
-        tmp.append(new_file)
+        tmp.append(name)
         counter += 1
 
     return tmp
 
 
-def getDirectories(directory):
+def get_directories(directory):
     directories = glob(directory + '*/')
     # Hides image folder
     try:
@@ -48,26 +89,9 @@ def getDirectories(directory):
     return directories
 
 
-# def buildIndex(current_directory, index):
-    # counter = 0
-    # for directory in current_directory:
-    #     sub_directories = getDirectories(directory)
-    #
-    #     if len(sub_directories) is 0:
-    #         buildIndex(sub_directories, index + '-' + str(counter))
-    #
-    #     tmp = []
-    #
-    #     new_directory = Directory()
-    #     new_directory.path = directory
-    #     new_directory.name = ((directory.replace(BASE_PATH, '')).replace('/', '')).replace('-', ' ')
-    #
-    #     tmp.append(new_directory)
-    #
-    #     tmp.extend(getFiles(directory, index + '-' + str(counter)))
-    #
-    #     index.append(tmp)
-    #     counter += 1
-
-excute()
-
+def has_sub_directories(directory):
+    sub_directories = get_directories(directory)
+    if len(sub_directories) is 0:
+        return False
+    else:
+        return True

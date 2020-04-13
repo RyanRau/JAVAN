@@ -4,48 +4,57 @@ from django.shortcuts import render
 import os
 from glob import glob
 import markdown
+from django.forms.models import model_to_dict
 
 from documentation import indexing
-from documentation import demo
 
 #  Markdown Documentation
 # https://python-markdown.github.io
 
 BASE_PATH = " ./documentation/documents"
 
+toc, toc_index = indexing.execute()
+
+
 # .../documentation/
 def index(request):
-    x = getFileTree()
-
-    html = markdown.markdown(open("./documentation/documents/database-structure/user-model.md").read(),
-                             extensions=['tables'])
     # html = markdown.markdownFromFile()
 
     context = {
-        'toc': indexing.index,
+
     }
+    # html = "<ul>" \
+    #        "<li>hello</li>" \
+    #        "<li>by</li>" \
+    #        "</ul>"
+    html = build_toc(toc, "<ul>")
+    # return HttpResponse(html)
     return render(request, "documentation/index.html", context)
 
 
+def view_document(request, file_id):
+    file_path = toc_index[file_id]
+    html = markdown.markdown(open(file_path).read(),
+                             extensions=['tables'])
+    return HttpResponse(html)
 
-def getDocument(request,  doc_id):
-    # Create file path
-    d = doc_id.split('-')
-    return render(request, "documentation/index.html")
+
+############################################################################
+# Auto creates HTML for TOC
+############################################################################
+# .../documentation/extras/toc
+def view_toc(request):
+    return HttpResponse(build_toc(toc, "<ul>"))
 
 
-def getFileTree():
-    p = []
-    p.append(glob("./documentation/documents/*.md"))
-
-    folder = './documentation/documents'
-    filepaths = [os.path.join(folder, f) for f in os.listdir(folder)]
-
-    fol = glob("./documentation/documents/*/")
-    for f in fol:
-        e = f.replace('./documentation/documents/', '')
-        tmp = [e]
-        tmp.extend(glob(f + "*.md"))
-        p.append(tmp)
-
-    return p
+def build_toc(objects, html):
+    for obj in objects:
+        if type(obj) is list:
+            html = build_toc(obj, html)
+        else:
+            if obj.getClass() is "Directory":
+                html += "<li><b>" + str(obj.name) + "</b></li><ul>"
+            else:
+                html += "<li><a onclick='getDocument(" + str(obj.uuid) + ")'>" + str(obj.name) + "</a></li>"
+    html += "</ul>"
+    return html
