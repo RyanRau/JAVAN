@@ -66,19 +66,6 @@ def create_file_object(file, directory):
     return file_object
 
 
-def get_files(directory):
-    files = glob(directory + '*.md')
-    tmp = []
-
-    counter = 0
-    for file in files:
-        name = ((file.replace(directory, '')).replace('.md', '')).replace('-', ' ')
-        tmp.append(name)
-        counter += 1
-
-    return tmp
-
-
 def get_directories(directory):
     directories = glob(directory + '*/')
     # Hides image folder

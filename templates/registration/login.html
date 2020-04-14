@@ -1,0 +1,45 @@
+{% extends "../base/base.html" %}
+
+{% block title %} Login {% endblock %}
+
+{% block head %}
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/registration/style.css' %}">
+{% endblock head %}
+
+{% block body %}
+    <div class="container-fluid h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-4"></div>
+
+                <div class="col-sm-4 align-self-center" id="login-box">
+                    <br>
+                    <h2>JAVAN</h2>
+                    <p>Please login in to access the system</p>
+                    <hr style="width: 80%">
+
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+
+                        <div class="fieldWrapper">
+                            {{ form.username.errors }}
+                            <label for="{{ form.username.id_for_label }}">Username:</label>
+                            {{ form.username }}
+                        </div>
+                        <div class="fieldWrapper">
+                            {{ form.password.errors }}
+                            <label for="{{ form.password.id_for_label }}">Password: </label>
+                            {{ form.password }}
+                        </div>
+
+                        <input type="submit" id="login-btn" class="btn btn-primary" value="Log In">
+                    </form>
+                    <!-- TODO: Add help page, reset password, & create new user -->
+                    <p>Having troubles logging in or don't have an account? Email Ryan Rau at  <a href = "mailto: ryanrau@uark.edu">ryanrau@uark.edu</a></p>
+                </div>
+
+            <div class="col-4"></div>
+        </div>
+    </div>
+{% endblock body %}

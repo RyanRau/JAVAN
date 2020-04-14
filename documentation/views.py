@@ -1,12 +1,9 @@
-import json
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import render
-import os
-from glob import glob
-import markdown
-from django.forms.models import model_to_dict
 
 from documentation import indexing
+
+import markdown
 
 #  Markdown Documentation
 # https://python-markdown.github.io
@@ -18,24 +15,19 @@ toc, toc_index = indexing.execute()
 
 # .../documentation/
 def index(request):
-    # html = markdown.markdownFromFile()
 
     context = {
 
     }
-    # html = "<ul>" \
-    #        "<li>hello</li>" \
-    #        "<li>by</li>" \
-    #        "</ul>"
-    html = build_toc(toc, "<ul>")
-    # return HttpResponse(html)
     return render(request, "documentation/index.html", context)
 
 
+# .../documentation/document/<int:file_id>
 def view_document(request, file_id):
     file_path = toc_index[file_id]
     html = markdown.markdown(open(file_path).read(),
-                             extensions=['tables'])
+                             extensions=['tables', 'fenced_code'])
+    # TODO: Add error checking if invalid
     return HttpResponse(html)
 
 
