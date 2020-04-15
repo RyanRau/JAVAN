@@ -16,15 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-# from materials.views import views as material_views
+from materials.views import views as material_views
 
 urlpatterns = [
-    # path('', material_views.home_redirect, name='root'),
+    path('', material_views.index, name='root'),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
     path('documentation/', include('documentation.urls')),
-    # path('materials/', include('materials.urls')),
+    path('materials/', include('materials.urls')),
     # path('library/', include('library.urls')),
 ]
 

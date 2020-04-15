@@ -1,0 +1,211 @@
+/* General Styles */
+body{
+    background-color: #f5f5f5;
+}
+
+.main-content{
+    background-color: #ffffff;
+    height:1000px;
+}
+
+.header{
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.secondary-text{
+    color: gray;
+}
+
+.w100{
+    width: 100%; !important;
+}
+
+.h100{
+    min-height: 100%;
+}
+
+.center{
+    text-align: center;
+}
+
+.inBlock{
+    display: inline-block;
+}
+
+.fRight{
+    float: right;
+}
+
+/* Back to Reservations Link */
+a.aBack:visited, a.aBack:link{
+    color: gray;
+    text-decoration: none;
+}
+a.aBack:active, a.aBack:hover{
+    color: lightgray;
+    text-decoration: none;
+}
+
+/* Materials Home Styles */
+.topBar{
+    margin-top: 50px;
+    padding-left: 2%;
+}
+.inTopBar{
+    width: 100%;
+    margin-top: 10px;
+}
+
+
+/* Offset to account for navbar */
+.container-offset{
+    margin-top:61px;
+}
+
+/* Custom Navbar Styles */
+.navbar-custom {
+    background-color: #9D2235;
+}
+.navbar-custom .nav-item .nav-link{
+    border-bottom: 5px solid transparent;
+}
+.navbar-custom .navbar-nav .nav-link {
+    color: #ffffff;
+}
+.navbar-custom .nav-item:hover .nav-link {
+    color: #ffffff;
+    border-bottom: 5px  solid #ffffff;
+}   
+.navbar-custom .nav-item.active .nav-link{
+    border-bottom: 5px  solid #ffffff;
+}
+
+/* Red Button Override */
+.btn-red {
+    color: #FFFFFF;
+    background-color: #9D2235;
+    border-color: #f5f5f5;
+}
+
+.btn-red:hover,
+.btn-red:focus,
+.btn-red:active,
+.btn-red.active,
+.open .dropdown-toggle.btn-red {
+    color: #FFFFFF;
+    background-color: #84091C;
+    border-color: #f5f5f5;
+}
+
+.btn-red:active,
+.btn-red.active,
+.open .dropdown-toggle.btn-red {
+    background-image: none;
+}
+
+.btn-red.disabled,
+.btn-red[disabled],
+fieldset[disabled] .btn-red,
+.btn-red.disabled:hover,
+.btn-red[disabled]:hover,
+fieldset[disabled] .btn-red:hover,
+.btn-red.disabled:focus,
+.btn-red[disabled]:focus,
+fieldset[disabled] .btn-red:focus,
+.btn-red.disabled:active,
+.btn-red[disabled]:active,
+fieldset[disabled] .btn-red:active,
+.btn-red.disabled.active,
+.btn-red[disabled].active,
+fieldset[disabled] .btn-red.active {
+    background-color: #9D2235;
+    border-color: #f5f5f5;
+}
+
+/* Grey Button Override */
+.btn-grey {
+    color: #FFFFFF;
+    background-color: #c2c2c2;
+    border-color: #f5f5f5;
+}
+
+.btn-grey:hover,
+.btn-grey:focus,
+.btn-grey:active,
+.btn-grey.active,
+.open .dropdown-toggle.btn-grey {
+    color: #FFFFFF;
+    background-color: #c2c2c2;
+    border-color: #f5f5f5;
+}
+
+.btn-grey:active,
+.btn-grey.active,
+.open .dropdown-toggle.btn-grey {
+    background-image: none;
+}
+
+.btn-grey.disabled,
+.btn-grey[disabled],
+fieldset[disabled] .btn-grey,
+.btn-grey.disabled:hover,
+.btn-grey[disabled]:hover,
+fieldset[disabled] .btn-grey:hover,
+.btn-grey.disabled:focus,
+.btn-grey[disabled]:focus,
+fieldset[disabled] .btn-grey:focus,
+.btn-grey.disabled:active,
+.btn-grey[disabled]:active,
+fieldset[disabled] .btn-grey:active,
+.btn-grey.disabled.active,
+.btn-grey[disabled].active,
+fieldset[disabled] .btn-grey.active {
+    background-color: #c2c2c2;
+    border-color: #f5f5f5;
+}
+
+
+button, button:focus, button:active, button:hover, label:focus, .btn:active, .btn.active {
+    outline:0px !important;
+    -webkit-appearance:none;
+    box-shadow: none !important;
+}
+/* Top Return Button Styles */
+#topbtn {
+display: none;
+position: fixed;
+bottom: 20px;
+right: 30px;
+z-index: 99;
+font-size: 18px;
+border: none;
+outline: none;
+background-color: #9D2235;
+color: white;
+cursor: pointer;
+padding: 15px;
+border-radius: 4px;
+}
+
+#topbtn:hover {
+    color: #9D2235;
+    background-color: white;
+}
+
+/* Modal Form Styles */
+.modal-header{
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+ max-width:inherit; /* For Bootstrap 4 - to avoid the modal window stretching full width */
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    pointer-events:all;
+}

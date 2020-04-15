@@ -15,9 +15,7 @@ toc, toc_index = indexing.execute()
 
 # .../documentation/
 def index(request):
-
     context = {
-
     }
     return render(request, "documentation/index.html", context)
 

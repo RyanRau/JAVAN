@@ -9,11 +9,11 @@ class CustomUser(AbstractUser):
     CLASSIFICATION = {
         (0, "Student"),
         (1, "Mentor"),
-        (2, "Master Teacher"),
-        (3, "Work Study"),
+        (2, "Work Study"),
+        (3, "Master Teacher"),
         (4, "Admin"),
     }
     classification = models.IntegerField(choices=CLASSIFICATION, default=0)
 
     def __str__(self):
-        return self.email
+        return self.username
