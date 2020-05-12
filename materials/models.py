@@ -12,7 +12,7 @@ class Course(models.Model):
         related_name='teacher',
         null=False
     )
-    code = models.IntegerField()
+    code = models.CharField(max_length=10)
     name = models.CharField(max_length=50)
 
 
@@ -33,6 +33,7 @@ class CourseComplete:
     course = Course()
     members = []
     orders = []
+
 
 ############################################################################
 # Material Inventory Model(s)
@@ -117,3 +118,10 @@ class OrderContent(models.Model):
     other_notes = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=10, null=True, blank=True)
     self_filled = models.BooleanField(default=False)
+
+
+class OrderComplete:
+    order = Order()
+    status = ""
+    members = []
+    orders_content = []

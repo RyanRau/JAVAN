@@ -8,6 +8,11 @@ from .helpers import *
 # .../materials/
 @login_required(login_url='/users/login/')
 def index(request):
+    orders = get_orders(request.user)
+    complete_orders = []
+    for order in orders:
+        complete_orders.append(get_complete_order(order.number))
+
     courses = []
     for course in get_taught_course(request.user):
         courses.append(get_complete_course(course.id))
@@ -22,11 +27,13 @@ def index(request):
 
     context = base_context(request)
     context.update({
-        'courses': courses,
+        'complete_orders': complete_orders,
+
     })
     return render(request, "./materials/index.html", context)
 
 
+# .../materials/order/<int:id>
 @login_required(login_url='/users/login/')
 def order_view(request, pk):
     order = get_object_or_404(Order, pk=pk)
@@ -35,4 +42,4 @@ def order_view(request, pk):
     context.update({
         'order': order,
     })
-    return render(request, "./materials/order.html", context)
+    return render(request, "./materials/order-view.html", context)

@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from users.models import CustomUser
 from django.http import HttpResponseRedirect
 
-from materials.models import Order, OrderMember, Course, CourseMember, CourseComplete
+from materials.models import *
 
 
 def get_orders(user):
@@ -13,6 +13,24 @@ def get_orders(user):
         orders.append(Order.objects.get(pk=order.order_id))
 
     return orders
+
+
+def get_order_status(status_number):
+    statuses = ["ASSIGNED", "STARTED", "PLACED", "UPDATED",
+                "FILLED", "SELF-FILLED", "OUT", "RETURNED", "EMPTIED", "DONE"]
+    return statuses[status_number]
+
+
+def get_complete_order(order_id):
+    order = OrderComplete()
+    order.order = get_object_or_404(Order, pk=order_id)
+    order.status = str(get_order_status(order.order.status))
+    members = OrderMember.objects.filter(order=order_id)
+    order.members = []
+    for member in members:
+        order.members.append(member.order_member)
+    order.orders_content = OrderContent.objects.filter(order=order_id)
+    return order
 
 
 # Given orders, will return a list of the corresponding courses
@@ -37,6 +55,7 @@ def get_complete_course(course_id):
         course.members.append(CustomUser.objects.get(pk=member.id))
     course.orders = Order.objects.filter(course_id=course_id)
     return course
+
 
 # Checks if password needs to be changed
 def password_check(function):
