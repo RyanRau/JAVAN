@@ -36,10 +36,15 @@ def index(request):
 # .../materials/order/<int:id>
 @login_required(login_url='/users/login/')
 def order_view(request, pk):
-    order = get_object_or_404(Order, pk=pk)
+    request.session['order_number'] = pk
+    
+    complete_order = get_complete_order(pk)
+    items = Item.objects.all()
 
     context = base_context(request)
     context.update({
-        'order': order,
+        'items': items,
+        'contents': complete_order.orders_content,
+        'order': complete_order.order,
     })
     return render(request, "./materials/order-view.html", context)

@@ -39,3 +39,18 @@ class PickupForm(forms.ModelForm):
         self.fields['lesson_date'].label = "Lesson Date (Optional)"
         self.fields['lesson_start_time'].label = "Lesson Start Time (Optional)"
         self.fields['lesson_end_time'].label = "Lesson End Time (Optional)"
+
+
+########################################################################################
+# Listed & Unlisted add forms
+class ListedAddForm(forms.Form):
+    quantity = forms.IntegerField(required=True)
+    other_notes = forms.CharField(required=False)
+    self_filled = forms.BooleanField(required=False)
+
+
+class UnlistedAddForm(forms.ModelForm):
+    class Meta:
+        model = OrderContent
+        fields = ('item', 'quantity', 'other_notes', 'self_filled')
+        widgets = {'order': forms.HiddenInput()}

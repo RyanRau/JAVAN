@@ -72,13 +72,15 @@ $(function () {
 
 /////////////////////// Modal Form Triggers //////////////////////////////////
   // Generic Form
-    $(".js-form").click(loadForm);
+    $(".js-form-load").click(loadForm);
     $("#modal-form").on("submit", ".js-form", saveForm);
+
+    $("#modal-form").on("submit", ".js-form-listed", list_saveForm);
 
 
 ///////////////////////// Order Content Triggers ///////////////////////////////////
   // Add Listed Item
-    $(".js-listed-add").click(loadForm);
+    $(".js-form-listed").click(loadForm);
     $("#modal-form").on("submit", ".js-listed-add-form", list_saveForm);
   // Add Unlisted Item
     $(".js-unlisted-add").click(loadForm);

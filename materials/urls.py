@@ -12,6 +12,16 @@ urlpatterns = [
     path('order/<int:pk>', views.order_view, name='order-view'),
 
 
+    ############## Forms ################
+    # Listed and Unlisted Add
+    path('order/listed_add/<int:pk>', form_views.listed_add, name='listed-add'),
+    path('order/unlisted_add/', form_views.unlisted_add, name='unlisted-add'),
 
+    # Order Content Edit & Delete
+    path('order/content/<int:pk>/edit', form_views.content_edit, name='content-edit'),
+    path('order/content/<int:pk>/delete', form_views.content_delete, name='content-delete'),
+
+    # Update pickup information
     path('order/<int:pk>/pickup/update', form_views.pickup_update, name='pickup-update'),
+
 ]

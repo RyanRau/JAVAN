@@ -15,9 +15,12 @@
             <div class="col-lg-1"></div>
 
             <div class="col-lg-10 main-content">
-                <!-- -->
+                <!-- TODO: Add view for teachers/staff -->
+
+                <!-- User's Personal Reservation -->
                 <h1 class="header"> Your Reservations </h1>
                 <hr width="90%">
+                <!-- Order Cards -->
                     <div class="row justify-content-center">
                         {%  for complete_order in complete_orders  %}
                         <div class="col-auto mb-3">
@@ -31,23 +34,23 @@
                                        {% endfor %}
                                     </p>
 
-                                    {% if complete_order.status == "ASSIGNED" %}
+                                    {% if complete_order.order.status == 0 %}
                                         <button type="button"
-                                                class="btn btn-red btn-lg js-form"
+                                                class="btn btn-red btn-lg js-form-load"
                                                 data-url="{% url 'pickup-update' complete_order.order.number %}">
                                             Start Order
                                         </button>
-                                    {% elif complete_order.status == "STARTED" %}
+                                    {% elif complete_order.order.status == 1 %}
                                         <button class="btn btn-red btn-lg"
                                                 onclick="location.href='{% url 'order-view' complete_order.order.number %}'">
                                             Continue Order
                                         </button>
-                                    {% elif complete_order.status == "PLACED" or complete_order.status == "FILLED" or complete_order.status == "UPDATED"%}
+                                    {% elif complete_order.order.status >= 2 and complete_order.order.status <= 5 %}
                                         <button class="btn btn-red btn-lg"
                                                 onclick="location.href='{% url 'order-view' complete_order.order.number %}'">
                                             Update Order
                                         </button>
-                                    {% elif complete_order.status == "OUT" or complete_order.status == "RETURNED" or complete_order.status == "EMPTIED" or complete_order.status == "DONE"%}
+                                    {% elif complete_order.order.status >= 6 %}
                                         <button class="btn btn-red btn-lg"  disabled="true">
                                             Unavailable
                                         </button>
@@ -57,6 +60,7 @@
                         </div>
                         {%  endfor %}
                     </div>
+
             </div>
 
             <div class="col-lg-1"></div>
