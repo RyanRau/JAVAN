@@ -27,7 +27,6 @@ $(function () {
         dataType: 'json',
         success: function (data) {
           if (data.form_is_valid) {
-            // $("#book-table tbody").html(data.html_book_list);
             $("#modal-form").modal("hide");
 
             // Only redirects if available
@@ -74,27 +73,6 @@ $(function () {
   // Generic Form
     $(".js-form-load").click(loadForm);
     $("#modal-form").on("submit", ".js-form", saveForm);
-
-    $("#modal-form").on("submit", ".js-form-listed", list_saveForm);
-
-
-///////////////////////// Order Content Triggers ///////////////////////////////////
-  // Add Listed Item
-    $(".js-form-listed").click(loadForm);
-    $("#modal-form").on("submit", ".js-listed-add-form", list_saveForm);
-  // Add Unlisted Item
-    $(".js-unlisted-add").click(loadForm);
-    $("#modal-form").on("submit", ".js-unlisted-add-form", list_saveForm);
-
-    // Generic Add form
-    $(".js-generic-add").click(loadForm);
-    $("#modal-form").on("submit", ".js-generic-add-form", list_saveForm);
-
-  // Edit Item
-    $("#content-table").on("click", ".js-content-edit", loadForm);
-    $("#modal-form").on("submit", ".js-content-edit-form", list_saveForm);
-  // Delete Item
-    $("#content-table").on("click", ".js-content-delete", loadForm);
-    $("#modal-form").on("submit", ".js-content-delete-form", list_saveForm);
+    $("#modal-form").on("submit", ".js-form-list", list_saveForm);
 
 });

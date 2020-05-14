@@ -23,13 +23,16 @@ def get_order_status(status_number):
 
 def get_complete_order(order_id):
     order = OrderComplete()
+
     order.order = get_object_or_404(Order, pk=order_id)
     order.status = str(get_order_status(order.order.status))
+
     members = OrderMember.objects.filter(order=order_id)
     order.members = []
     for member in members:
         order.members.append(member.order_member)
-    order.orders_content = OrderContent.objects.filter(order=order_id)
+
+    order.order_content = OrderContent.objects.filter(order=order_id)
     return order
 
 
@@ -48,11 +51,14 @@ def get_taught_course(user):
 
 def get_complete_course(course_id):
     course = CourseComplete()
+
     course.course = get_object_or_404(Course, pk=course_id)
+
     members = CourseMember.objects.filter(course_id=course_id)
     course.members = []
     for member in members:
         course.members.append(CustomUser.objects.get(pk=member.id))
+
     course.orders = Order.objects.filter(course_id=course_id)
     return course
 
@@ -64,7 +70,6 @@ def password_check(function):
         if custom_user.forcePasswordChange:
             return HttpResponseRedirect('/users/password/')
         return function(request, *args, **kwargs)
-
     return _function
 
 

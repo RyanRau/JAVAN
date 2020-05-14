@@ -74,7 +74,7 @@ class Order(models.Model):
     }
     status = models.IntegerField(choices=STATUS, default=0)
 
-    # TODO: add optional responsible person for one off orders
+    # TODO: add optional responsible person for one of orders
     course = models.ForeignKey(
         Course,
         on_delete=models.CASCADE,
@@ -87,6 +87,7 @@ class Order(models.Model):
     pickup_date = models.DateField(null=True, blank=True)
     pickup_time = models.TimeField(null=True, blank=True)
 
+    # TODO: Abstract out to lesson table
     lesson_date = models.DateField(null=True, blank=True)
     lesson_start_time = models.TimeField(null=True, blank=True)
     lesson_end_time = models.TimeField(null=True, blank=True)
@@ -124,4 +125,4 @@ class OrderComplete:
     order = Order()
     status = ""
     members = []
-    orders_content = []
+    order_content = []

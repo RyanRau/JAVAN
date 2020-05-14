@@ -1,0 +1,157 @@
+{% extends "../base/base.html" %}
+
+{% block title %}{{ order }}{% endblock %}
+
+{% block head %}
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
+{% endblock head %}
+
+{% block body %}
+    {% include "../base/includes/nav.html" %}
+
+<div class="container" style="min-height: 100vh; background-color: white;">
+    <!-- Scripts for buttons -->
+    <script>
+        function placeOrder(){
+            if (document.getElementById("selfFilled").checked){
+                {#document.location.href = "{% url 'order-status' order.number 5 3 %}";#}
+            }else{
+                {#document.location.href = "{% url 'order-status' order.number 2 3 %}";#}
+            }
+        }
+
+        function updateOrder(){
+            if (document.getElementById("selfFilled").checked){
+                {#document.location.href = "{% url 'order-status' order.number 5 3 %}";#}
+            }else{
+                {#document.location.href = "{% url 'order-status' order.number 3 3 %}";#}
+            }
+        }
+    </script>
+
+    <!-- Return to top button -->
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+
+    <!-- Page Content -->
+    <div class="row" style="margin-top: 50px; padding-left: 20px; padding-right: 20px;">
+
+        <!-- Row with "return to materials button" -->
+        <div class="row">
+            <div class="col-lg-12 bg-white">
+                <p><a class="aBack d-flex justify-content-center align-content-between"
+                      href="{% url 'order-view' order.number %}">
+                    <i class="material-icons">chevron_left</i>Return to Materials
+                </a></p>
+            </div>
+        </div>
+
+        <!-- Error message bar -->
+        <div class="row w-100">
+            <div class="col-lg-1 bg-white"></div>
+
+            <div class="col-lg-10 bg-white text-center">
+                <h1>Review Order</h1>
+                <hr>
+                {% for message in messages %}
+                    <div class="alert alert-danger">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="col-lg-1 bg-white"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="row w-100">
+            <div class="col-lg-1 bg-white"></div>
+
+            <!-- Order Information -->
+            <div class="col-lg-5 bg-white">
+                <h1>Lesson Info</h1>
+                <hr>
+{#                <a style="float: right" href="{% url 'lesson-edit' order.number %}">edit</a> </p>#}
+                <p>Order(Bin) #: <b>{{ order.number }}</b></p>
+                <p>Course: <b>{{ order.course }}</b></p>
+                <p>Master Teacher: <b>{{ order.master_teacher.first_name }} {{ order.master_teacher.last_name }}</b></p>
+                {% if order_lesson_date %}
+                    <p>Lesson Date & Time: <b>{{ order.lesson_date }} from {{ order.lesson_start_time }} to {{ order.lesson_end_time }}</b></p>
+                    {% else %}
+                    <p>Lesson Date & Time: <b>N/A</b></p>
+                {% endif %}
+
+{#                <p>School: {{ order.school }}</p>#}
+{#                <p>Teacher: {{ order.teacher }}</p>#}
+
+                <h1>Pickup Info</h1>
+                <hr>
+                <p>Pickup Time: {{ order.pickup_date }} @ {{ order.pickup_time }}
+                    <a class="aBack js-form-load"
+                       style="float: right"
+                       data-url="{% url 'pickup-update' order.number %}">
+                        <i class="material-icons">edit</i>
+                    </a>
+                </p>
+            </div>
+
+            <!-- Order Content (Cart) -->
+            <div class="col-lg-5 bg-white">
+                <h1>Order Contents</h1>
+                <hr>
+                <table class="table" id="content-table">
+                    <thead>
+                        <tr>
+                            <th>QTY</th>
+                            <th>Item</th>
+                            <th>Edit/Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% include 'materials/includes/order_content_list.html' %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-1 bg-white"></div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="row w-100" style="margin-top: 20px; height: 200px">
+            <div class="col-lg-1 bg-white"></div>
+
+            <div class="col-lg-10 bg-white text-center">
+                <hr>
+                <h5>Please check with your teacher before placing your order.</h5>
+                <button class="btn btn-red btn-lg" onclick="location.href='{% url 'order-view' order.number %}'">Add Additional Items</button>
+
+                {% if order.status == 'STARTED' %}
+                    <button class="btn btn-red btn-lg" onclick="placeOrder();">Place Order</button>
+                {% elif order.status == 'PLACED' or 'FILLED' or 'UPDATED' or 'SELF-FILLED'%}
+                    <button class="btn btn-red btn-lg" onclick="updateOrder();">Update Order</button>
+                {% endif %}
+
+                <br>
+                <input id="selfFilled" type="checkbox" name="selfFilled"> Will this bin be self filled?
+{#                {% if canSelfFill %}#}
+{#                    <input id="selfFilled" type="checkbox" name="selfFilled"> Will this bin be self filled?#}
+{#                {% else %}#}
+{#                    <input id="selfFilled" type="checkbox" name="selfFilled" hidden="true">#}
+{#                {% endif %}#}
+            </div>
+
+            <div class="col-lg-1 bg-white"></div>
+        </div>
+
+    </div>
+
+    <!-- Modal Box for forms -->
+    <div class="modal fade" id="modal-form">
+        <div class="modal-dialog">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+
+</div>
+{% endblock body %}

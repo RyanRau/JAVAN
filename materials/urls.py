@@ -10,6 +10,7 @@ urlpatterns = [
     # Urls for editing reservation details
     # /order/(id)/...
     path('order/<int:pk>', views.order_view, name='order-view'),
+    path('order/<int:pk>/review', views.order_review, name='order-review'),
 
 
     ############## Forms ################

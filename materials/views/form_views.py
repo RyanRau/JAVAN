@@ -29,6 +29,7 @@ def pickup_update_save(request, pk, form, template_name):
         else:
             data['form_is_valid'] = False
     context = {'form': form,
+               'class': 'js-form',
                'action': request.path,
                'header': "Pick-up Information",
                'cancel': "Cancel",
@@ -43,7 +44,7 @@ def pickup_update(request, pk):
         form = PickupForm(request.POST, instance=order)
     else:
         form = PickupForm(instance=order)
-    return pickup_update_save(request, pk, form, 'materials/includes/generic_form.html')
+    return pickup_update_save(request, pk, form, 'materials/includes/generic_modal_form.html')
 
 
 ########################################################################################
@@ -68,23 +69,23 @@ def listed_add(request, pk):
 
             data['form_is_valid'] = True
             content = OrderContent.objects.filter(order=order)
-            data['html_content_list'] = render_to_string('materials/includes/order_content.html', {
+            data['html_content_list'] = render_to_string('materials/includes/order_content_list.html', {
                 'contents': content
             })
         else:
             error = 'An error has occurred, please refresh the page and try again.'
             context = {'book': item, 'form': form, 'error': error}
-            data['html_form'] = render_to_string('materials/includes/listed_add.html', context,
+            data['html_form'] = render_to_string('materials/includes/listed_item_add.html', context,
                                                  request=request)
     else:
         form = ListedAddForm()
         context = {'item': item, 'form': form}
-        data['html_form'] = render_to_string('materials/includes/listed_add.html', context, request=request)
+        data['html_form'] = render_to_string('materials/includes/listed_item_add.html', context, request=request)
     return JsonResponse(data)
 
 
 # Saves Form - Unlisted & Edit
-def save_content_form(request, form, template_name):
+def save_content_form(request, form, template_name, context):
     data = dict()
     if request.method == 'POST':
         if form.is_valid():
@@ -99,13 +100,11 @@ def save_content_form(request, form, template_name):
             data['form_is_valid'] = True
 
             contents = OrderContent.objects.filter(order=order)
-            data['html_content_list'] = render_to_string('materials/includes/order_content.html', {
+            data['html_content_list'] = render_to_string('materials/includes/order_content_list.html', {
                 'contents': contents,
             })
         else:
             data['form_is_valid'] = False
-
-    context = {'form': form}
     data['html_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
 
@@ -116,7 +115,13 @@ def unlisted_add(request):
         form = UnlistedAddForm(request.POST)
     else:
         form = UnlistedAddForm()
-    return save_content_form(request, form, 'materials/includes/partial_unlisted_add.html')
+    context = {'form': form,
+               'class': 'js-form-listed',
+               'action': request.path,
+               'header': "Add Unlisted Item",
+               'cancel': "Cancel",
+               'submit': "Add Item"}
+    return save_content_form(request, form, 'materials/includes/generic_modal_form.html', context)
 
 
 # Edit Item
@@ -126,7 +131,13 @@ def content_edit(request, pk):
         form = UnlistedAddForm(request.POST, instance=content)
     else:
         form = UnlistedAddForm(instance=content)
-    return save_content_form(request, form, 'materials/includes/partial_content_edit.html')
+    context = {'form': form,
+               'class': 'js-form-listed',
+               'action': request.path,
+               'header': "Update Item",
+               'cancel': "Cancel",
+               'submit': "Update"}
+    return save_content_form(request, form, 'materials/includes/generic_modal_form.html', context)
 
 
 # Delete Item
@@ -140,10 +151,10 @@ def content_delete(request, pk):
         order = get_object_or_404(Order, pk=order_number)
         contents = OrderContent.objects.filter(order=order)
 
-        data['html_content_list'] = render_to_string('materials/includes/order_content.html', {
+        data['html_content_list'] = render_to_string('materials/includes/order_content_list.html', {
             'contents': contents,
         })
     else:
         context = {'content': content}
-        data['html_form'] = render_to_string('materials/includes/partial_content_delete.html', context, request=request)
+        data['html_form'] = render_to_string('materials/includes/order_content_delete.html', context, request=request)
     return JsonResponse(data)
