@@ -1,6 +1,6 @@
 from django.urls import path
 
-from materials.views import views, form_views
+from materials.views import views, form_views, status_views
 
 # .../materials/
 urlpatterns = [
@@ -11,6 +11,9 @@ urlpatterns = [
     # /order/(id)/...
     path('order/<int:pk>', views.order_view, name='order-view'),
     path('order/<int:pk>/review', views.order_review, name='order-review'),
+
+    # Status changing of order
+    path('order/<int:pk>/status/<int:status_id>/<int:redir>/', status_views.order_status, name='order-status'),
 
 
     ############## Forms ################
