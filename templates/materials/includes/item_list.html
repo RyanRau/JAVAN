@@ -1,8 +1,9 @@
+{% load static from staticfiles %}
+<script src="{% static 'js/materials/modal-form.js' %}"></script>
 {% for item in items %}
-    <div style="width: 100%">
         <span style="width:72.5%;
-                                  display: inline-block;
-                                  margin-left: 7.5%;">
+                     display: inline-block;
+                     margin-left: 7.5%;">
             <h3>{{ item.item }}</h3>
             <h5>{{ item.category }}</h5>
         </span>
@@ -16,6 +17,4 @@
         </span>
 
         <hr style="width:85%">
-
-    </div>
 {% endfor %}

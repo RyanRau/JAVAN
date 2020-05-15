@@ -5,6 +5,7 @@
 {% block head %}
     {% load static from staticfiles %}
     <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
+    <script src="{% static 'js/materials/item-filter.js' %}"></script>
 {% endblock head %}
 
 {% block body %}
@@ -88,7 +89,7 @@
                     <br>
                 <div class="row justify-content-center">
                     <button type="button"
-                            class="btn btn-red js-unlisted-add d-flex justify-content-center align-content-between"
+                            class="btn btn-red js-form-load d-flex justify-content-center align-content-between"
                             data-url="{% url 'unlisted-add' %}">
                             <i class="material-icons">add</i>
                             <span>Add Unlisted Item</span>
@@ -100,13 +101,11 @@
                 <div class="col-lg-6 bg-white">
                     <h1>Available Materials</h1>
 
-                <!-- Search Box -->
-                    <form method="get">
-                        <div class="input-group" method="get">
-                            <input type="text" class="form-control" placeholder="Search" name="q" value="{{ request.GET.q }}">
-                            {% for a in category %}
-                                <input type="hidden" name="category[]" value="{{ a }}" >
-                            {% endfor %}
+                <!-- New search bar -->
+                    <form onsubmit="filter(this); return false;">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search" name="term" oninput="change(value)">
+
 
                             <div class="input-group-btn">
                                 <button class="btn btn-default" type="submit" value="Search">
@@ -120,7 +119,21 @@
 
                 <!-- items -->
                     <div class="row">
-                        {% include 'materials/includes/item_list.html' %}
+                        <div id="item-list" style="width: 100%;"></div>
+
+{#                        <script>#}
+{#                            $.ajax({#}
+{#    type: 'GET',#}
+{#    url: '/materials/items',#}
+{#    success: function(resp) {#}
+{#        $("#item-list").html(resp);#}
+{#    },#}
+{#    error: function() {#}
+{#    //      TODO: Add some error handling#}
+{#    }#}
+{#    });#}
+{#                        </script>#}
+{#                        {% include "materials/includes/item_list.html" %}#}
                     </div>
 
                 </div>
@@ -168,8 +181,6 @@
                 </div>
 
         </div>
-
-
 
 
         </div>

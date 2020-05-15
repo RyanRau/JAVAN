@@ -44,12 +44,6 @@ def order_view(request, pk):
     complete_order = get_complete_order(pk)
     items = Item.objects.all()
 
-    # TODO: make dynamic with ajax
-    # Search box: filters items
-    query = request.GET.get("q")
-    if query:
-        items = items.filter(Q(item__icontains=query) | Q(description__icontains=query))
-
     context = base_context(request)
     context.update({
         'items': items,

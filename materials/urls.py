@@ -1,6 +1,6 @@
 from django.urls import path
 
-from materials.views import views, form_views, status_views
+from materials.views import views, form_views, status_views, helpers
 
 # .../materials/
 urlpatterns = [
@@ -15,6 +15,10 @@ urlpatterns = [
     # Status changing of order
     path('order/<int:pk>/status/<int:status_id>/<int:redir>/', status_views.order_status, name='order-status'),
 
+
+    ########################################################################################
+    # Urls for ajax
+    path('items', helpers.item_list, name="item-list"),
 
     ############## Forms ################
     # Listed and Unlisted Add

@@ -1,11 +1,30 @@
-from django.shortcuts import get_object_or_404
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, render
 
 from users.models import CustomUser
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 
 from materials.models import *
 
 
+############################################################################
+# Ajax
+def item_list(request):
+    items = Item.objects.all()
+    print(request.GET)
+
+    query = request.GET.get("query")
+    items = items.filter(Q(item__icontains=query) | Q(description__icontains=query))
+
+    context = {
+        'items': items,
+    }
+    html = render(request, "materials/includes/item_list.html", context=context)
+    return HttpResponse(html)
+
+
+############################################################################
+# Order
 def get_orders(user):
     member_of = OrderMember.objects.filter(order_member=user)
     orders = []
@@ -36,6 +55,8 @@ def get_complete_order(order_id):
     return order
 
 
+############################################################################
+# Courses
 # Given orders, will return a list of the corresponding courses
 def get_corresponding_courses(orders):
     courses = []
@@ -63,6 +84,8 @@ def get_complete_course(course_id):
     return course
 
 
+############################################################################
+# Misc
 # Checks if password needs to be changed
 def password_check(function):
     def _function(request, *args, **kwargs):

@@ -10,7 +10,7 @@ from materials.trello import *
 
 
 ########################################################################################
-# order-status .../order/<int:pk>/status/<int:status_id>/<int:redir>/
+# .../order/<int:pk>/status/<int:status_id>/<int:redir>/
 def order_status(request, pk, status_id, redir):
     # order = Order.objects.get(pk=pk)
     url = request.META['HTTP_HOST']
