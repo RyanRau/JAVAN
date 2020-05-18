@@ -19,9 +19,18 @@ def index(request):
         courses.append(get_complete_course(course.id))
 
     # TODO: Add views for staff and teachers
+    #         (0, "Student"),
+    #         (1, "Mentor"),
+    #         (2, "Work Study"),
+    #         (3, "Master Teacher"),
+    #         (4, "Admin"),
+
     if request.user.classification >= 3:
-        x = 1
+        elevated = True
     else:
+        elevated = False
+
+        responsible_orders = get_responsible_orders(request.user)
         x = request.user.classification
         orders = get_orders(request.user)
         # courses = get_corresponding_courses(orders)
@@ -30,7 +39,7 @@ def index(request):
     context = base_context(request)
     context.update({
         'complete_orders': complete_orders,
-
+        'isElevated': elevated,
     })
     return render(request, "./materials/index.html", context)
 

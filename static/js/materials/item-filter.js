@@ -1,3 +1,6 @@
+var query = ""
+var category = []
+
 getItems("");
 
 function filter(input){
@@ -6,13 +9,26 @@ function filter(input){
 }
 
 function change(val) {
-    getItems(val);
+    query = val;
+    getItems();
 }
 
-function getItems(input){
+function checkboxChange(){
+    var checked = [];
+
+    $("input[name='category[]']:checked").each(function () {
+        checked.push($(this).val());
+    });
+
+    category = checked;
+    getItems();
+}
+
+function getItems(){
     $.ajax({
         type: 'GET',
-        data: {query: input},
+        data: {query: query,
+               category: category},
         url: '/materials/items',
 
     success: function(resp) {

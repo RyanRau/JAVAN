@@ -31,62 +31,56 @@
 
             <!-- column one -->
                 <div class="col-lg-3 bg-white ">
-                <div class="row justify-content-center">
-                    <h1 class="text-center">Category</h1>
-                    <hr style="width:80%">
-                </div>
-
-                <div class="row justify-content-center">
-                    <form method="get">
-                    <span style="width:40%; margin-left:10%; display: inline-block;">
-                    <div class="form-check">
-                        <input type="hidden" name="q" value="{{ request.GET.q }}">
-                        <label class="form-check-label">
-                            <input id="PHYS" type="checkbox" class="form-check-input" name="category[]" value="PHYS">
-                            Physics
-                        </label>
-                        <label class="form-check-label">
-                            <input id="MATH" type="checkbox" class="form-check-input" name="category[]" value="MATH">
-                            Mathematics
-                        </label>
-                        <label class="form-check-label">
-                            <input id="CHEM" type="checkbox" class="form-check-input" name="category[]" value="CHEM">
-                            Chemistry
-                        </label>
-                    </div>
-                    </span>
-                    <span style="width:40%; display: inline-block;">
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input id="BIO" type="checkbox" class="form-check-input" name="category[]" value="BIO">
-                            Biology
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input id="TOYS" type="checkbox" class="form-check-input" name="category[]" value="TOYS">
-                            Toys
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input id="CRAFTS" type="checkbox" class="form-check-input" name="category[]" value="CRAFTS">
-                            Crafts
-                        </label>
+                    <div class="row justify-content-center">
+                        <h1 class="text-center">Category</h1>
+                        <hr style="width:80%">
                     </div>
 
-                    </span>
-                    <br>
-                    <br>
-                        <center>
-                        <button class="btn btn-red" type="submit" value="Submit">
-                            Update Filter
-                        </button>
-                        </center>
+                    <div class="row justify-content-center">
+                        <form method="get" onsubmit="return false;">
+                            <span style="width:40%; margin-left:10%; display: inline-block;">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input" name="category[]" value="PHYS">
+                                        Physics
+                                    </label>
+
+                                    <label class="form-check-label">
+                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input" name="category[]" value="MATH">
+                                        Mathematics
+                                    </label>
+                                    <label class="form-check-label">
+                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input" name="category[]" value="CHEM">
+                                        Chemistry
+                                    </label>
+                                </div>
+                            </span>
+
+                            <span style="width:40%; display: inline-block;">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input" name="category[]" value="BIO">
+                                        Biology
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input" name="category[]" value="TOYS">
+                                        Toys
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input" name="category[]" value="CRAFT">
+                                        Crafts
+                                    </label>
+                                </div>
+                            </span>
                     </form>
                 </div>
                     <br>
                     <br>
+
                 <div class="row justify-content-center">
                     <button type="button"
                             class="btn btn-red js-form-load d-flex justify-content-center align-content-between"
@@ -95,6 +89,7 @@
                             <span>Add Unlisted Item</span>
                     </button>
                 </div>
+
             </div>
 
             <!-- column two -->
@@ -120,20 +115,6 @@
                 <!-- items -->
                     <div class="row">
                         <div id="item-list" style="width: 100%;"></div>
-
-{#                        <script>#}
-{#                            $.ajax({#}
-{#    type: 'GET',#}
-{#    url: '/materials/items',#}
-{#    success: function(resp) {#}
-{#        $("#item-list").html(resp);#}
-{#    },#}
-{#    error: function() {#}
-{#    //      TODO: Add some error handling#}
-{#    }#}
-{#    });#}
-{#                        </script>#}
-{#                        {% include "materials/includes/item_list.html" %}#}
                     </div>
 
                 </div>

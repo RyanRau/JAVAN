@@ -5,6 +5,11 @@ from django.conf import settings
 ############################################################################
 # Class Model(s)
 ############################################################################
+from django.db.models import Q
+
+from users.models import CustomUser
+
+
 class Course(models.Model):
     teacher = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -74,7 +79,17 @@ class Order(models.Model):
     }
     status = models.IntegerField(choices=STATUS, default=0)
 
-    # TODO: add optional responsible person for one of orders
+    master_teacher = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        # TODO: see if can fix to be based on classification number
+        # limit_choices_to=({CustomUser.classification == 2}),
+        limit_choices_to=Q(groups__name='Master Teacher'),
+        related_name='master_teacher',
+        null=True,
+        blank=True,
+    )
+
     course = models.ForeignKey(
         Course,
         on_delete=models.CASCADE,

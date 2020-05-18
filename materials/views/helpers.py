@@ -11,10 +11,14 @@ from materials.models import *
 # Ajax
 def item_list(request):
     items = Item.objects.all()
-    print(request.GET)
 
     query = request.GET.get("query")
+    checks = request.GET.getlist("category[]")
+
     items = items.filter(Q(item__icontains=query) | Q(description__icontains=query))
+
+    if checks:
+        items = items.filter(category__in=checks)
 
     context = {
         'items': items,
@@ -54,6 +58,16 @@ def get_complete_order(order_id):
     order.order_content = OrderContent.objects.filter(order=order_id)
     return order
 
+
+def get_responsible_orders(user):
+    orders = Order.objects.filter(master_teacher=user)
+
+    responsible_orders = []
+
+    for order in orders:
+        responsible_orders.append(get_complete_order(order.pk))
+
+    return responsible_orders
 
 ############################################################################
 # Courses
