@@ -7,7 +7,7 @@ from materials.models import Order, OrderMember, OrderContent, Course, CourseMem
 # Order Models
 ############################################################################
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('number', 'status', 'trello_id', 'master_teacher', 'course',
+    list_display = ('number', 'status', 'trello_id', 'master_teacher',
                     'course', 'pickup_date', 'pickup_time')
 
 

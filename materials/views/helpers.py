@@ -44,6 +44,14 @@ def get_order_status(status_number):
     return statuses[status_number]
 
 
+def get_order_members(order_id):
+    members = []
+    for m in OrderMember.objects.filter(order=order_id):
+        members.append(m)
+
+    return members
+
+
 def get_complete_order(order_id):
     order = OrderComplete()
 
@@ -65,9 +73,12 @@ def get_responsible_orders(user):
     responsible_orders = []
 
     for order in orders:
-        responsible_orders.append(get_complete_order(order.pk))
+        tmp_order = get_complete_order(order.pk)
+        if user not in tmp_order.members:
+            responsible_orders.append(get_complete_order(order.pk))
 
     return responsible_orders
+
 
 ############################################################################
 # Courses
@@ -94,7 +105,11 @@ def get_complete_course(course_id):
     for member in members:
         course.members.append(CustomUser.objects.get(pk=member.id))
 
-    course.orders = Order.objects.filter(course_id=course_id)
+    orders = Order.objects.filter(course=course.course)
+    course.orders = []
+    for order in orders:
+        course.orders.append(get_complete_order(order.pk))
+
     return course
 
 

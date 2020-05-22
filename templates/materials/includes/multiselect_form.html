@@ -1,0 +1,26 @@
+{% load static from staticfiles %}
+<script src="{% static 'django_select2/django_select2.js' %}"></script>
+
+{% load widget_tweaks %}
+
+<form method="post" action="{{ action }}" class="js-form">
+    {% csrf_token %}
+    <div class="modal-body">
+        {% for field in form %}
+            <div class="form-group{% if field.errors %} has-danger{% endif %}">
+                <label class="form-control-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+                {% render_field field class="form-control" style="width:100%" %}
+
+                {% for error in field.errors %}
+{#                    <div class="invalid-feedback">{{ error }}</div>#}
+                    <div class="form-control-feedback">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>

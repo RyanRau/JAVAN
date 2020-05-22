@@ -1,8 +1,8 @@
 from django import forms
+from django_select2.forms import Select2MultipleWidget, ModelSelect2MultipleWidget, ModelSelect2Widget
 
 from users.models import CustomUser
 from .models import *
-from django.contrib.auth.forms import UserCreationForm
 
 
 ########################################################################################
@@ -54,3 +54,26 @@ class UnlistedAddForm(forms.ModelForm):
         model = OrderContent
         fields = ('item', 'quantity', 'other_notes', 'self_filled')
         widgets = {'order': forms.HiddenInput()}
+
+
+########################################################################################
+# Course forms
+
+
+class CourseOrderAdd(forms.Form):
+    order_number = forms.IntegerField(required=True)
+    username = forms.ModelMultipleChoiceField(label='Students', queryset=CustomUser.objects.none(),
+                                              widget=Select2MultipleWidget(), required=True)
+
+    class Meta:
+        model = CustomUser
+        fields = ('username',)
+        widgets = {
+            'username': Select2MultipleWidget()
+        }
+
+    def __init__(self, isUpdate, *args, **kwargs):
+        super(CourseOrderAdd, self).__init__(*args, **kwargs)
+        self.field_order = ['order_number', 'username']
+        self.fields['order_number'].widget.attrs['readonly'] = isUpdate
+        self.fields['username'].queryset = CustomUser.objects.all()
