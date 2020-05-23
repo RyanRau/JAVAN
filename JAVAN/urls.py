@@ -26,7 +26,7 @@ urlpatterns = [
     path('users/', include('django.contrib.auth.urls')),
     path('documentation/', include('documentation.urls')),
     path('materials/', include('materials.urls')),
-    # path('library/', include('library.urls')),
+    path('library/', include('library.urls')),
 
     path('select2/', include('django_select2.urls')),
 ]

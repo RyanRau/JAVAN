@@ -1,0 +1,40 @@
+{% extends "../base/base.html" %}
+
+{% block title %}JAVAN - Library Home{% endblock %}
+
+{% block head %}
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+{% endblock head %}
+
+{% block body %}
+    {% include "../base/includes/nav.html" %}
+
+    <div class="container-offset">
+        <div class="row">
+            <div class="col-lg-1"></div>
+
+            <div class="col-lg-10 main-content">
+                <h1> DEMO </h1>
+                <button type="button"
+                        class="btn btn-red js-form-load"
+                        data-url="{% url 'demo-form' %}">
+                    DEMO FORM BUTTOPN
+                </button>
+            </div>
+
+            <div class="col-lg-1"></div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-form">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <script src="{% static 'django_select2/django_select2.js' %}"></script>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}
