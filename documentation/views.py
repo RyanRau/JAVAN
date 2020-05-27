@@ -1,3 +1,5 @@
+import json
+
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -16,6 +18,7 @@ toc, toc_index = indexing.execute()
 # .../documentation/
 def index(request):
     context = {
+        'files': json.dumps(toc_index),
     }
     return render(request, "documentation/index.html", context)
 
