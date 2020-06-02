@@ -12,8 +12,12 @@ from materials.models import *
 def item_list(request):
     items = Item.objects.all()
 
+    print(request.path)
     query = request.GET.get("query")
     checks = request.GET.getlist("category[]")
+    flag = request.GET.get("flag")
+
+    print(flag)
 
     items = items.filter(Q(item__icontains=query) | Q(description__icontains=query))
 
@@ -22,6 +26,7 @@ def item_list(request):
 
     context = {
         'items': items,
+        'flag': flag
     }
     html = render(request, "materials/includes/item_list.html", context=context)
     return HttpResponse(html)

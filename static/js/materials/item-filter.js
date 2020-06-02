@@ -1,7 +1,11 @@
-var query = ""
-var category = []
+var query = "";
+var category = [];
+var flag;
 
-getItems("");
+function setFlag(val) {
+    flag = val;
+    console.log(flag)
+}
 
 function filter(input){
     getItems(input.term.value);
@@ -28,7 +32,9 @@ function getItems(){
     $.ajax({
         type: 'GET',
         data: {query: query,
-               category: category},
+               category: category,
+               flag: flag
+              },
         url: '/materials/items',
 
     success: function(resp) {

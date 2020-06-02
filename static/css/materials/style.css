@@ -83,6 +83,11 @@ a.aBack:active, a.aBack:hover{
     border-bottom: 5px  solid #ffffff;
 }
 
+li.dropdown:hover > .dropdown-menu {
+    display: block;
+}
+
+
 /* Red Button Override */
 .btn-red {
     color: #FFFFFF;

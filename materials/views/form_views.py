@@ -117,7 +117,7 @@ def unlisted_add(request):
     else:
         form = UnlistedAddForm()
     context = {'form': form,
-               'class': 'js-form-listed',
+               'class': 'js-form-list',
                'action': request.path,
                'header': "Add Unlisted Item",
                'cancel': "Cancel",
@@ -133,7 +133,7 @@ def content_edit(request, pk):
     else:
         form = UnlistedAddForm(instance=content)
     context = {'form': form,
-               'class': 'js-form-listed',
+               'class': 'js-form-list',
                'action': request.path,
                'header': "Update Item",
                'cancel': "Cancel",
@@ -153,7 +153,7 @@ def content_delete(request, pk):
         contents = OrderContent.objects.filter(order=order)
 
         data['html_content_list'] = render_to_string('materials/includes/order_content_list.html', {
-            'contents': contents,
+            'contents': contents
         })
     else:
         context = {'content': content}

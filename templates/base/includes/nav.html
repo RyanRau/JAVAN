@@ -9,11 +9,17 @@
     <div class="navbar-collapse collapse" id="collapsingNavbar">
         <ul class="navbar-nav">
         <!-- Materials -->
-            <li class="nav-item
-                {% if 'materials' in request.build_absolute_uri %}
-                active {% endif %} ">
-                <a class="nav-link" href="{% url 'materials-index' %}">Material Reservations</a>
+            <li class="nav-item dropdown {% if 'materials' in request.build_absolute_uri %} active {% endif %} ">
+                <a href="{% url 'materials-index' %}" class="nav-link" role="button"
+                     aria-haspopup="true" aria-expanded="false">
+                    Material Reservations</a>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'materials-index' %}">Home</a>
+                    <a class="dropdown-item" href="{% url 'browse-items' %}">Browse Material List</a>
+                </div>
             </li>
+
         <!-- Library -->
             <li class="nav-item
                 {% if 'library' in request.build_absolute_uri %}

@@ -1,20 +1,40 @@
 {% extends "../base/base.html" %}
 
-{% block title %}Order {{ order.number }}{% endblock %}
+{% block title %}Browse Materials{% endblock %}
 
 {% block head %}
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
+
+    <!-- Scripts for item list/filter -->
+    <script src="{% static 'js/materials/item-filter.js' %}"></script>
     <script>
-        setFlag(0);
         getItems("");
     </script>
 
+    <script>
+        window.onscroll = function() {scrollFunction()};
 
+        function scrollFunction() {
+          if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("topbtn").style.display = "block";
+          } else {
+            document.getElementById("topbtn").style.display = "none";
+          }
+        }
+
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
+    </script>
 {% endblock head %}
 
 {% block body %}
+    {% include "../base/includes/nav.html" %}
+
+
     <div class="container-fluid container-offset" style="height: 1000px">
-    <!-- Return to top button -->
-        <button onclick="topFunction()" id="topbtn" title="Go to top">Top</button>
 
     <!-- top bar -->
         <div class="row topBar bg-white">
@@ -44,19 +64,16 @@
                             <span style="width:40%; margin-left:10%; display: inline-block;">
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input"
-                                               name="category[]" value="PHYS">
+                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input" name="category[]" value="PHYS">
                                         Physics
                                     </label>
 
                                     <label class="form-check-label">
-                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input"
-                                               name="category[]" value="MATH">
+                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input" name="category[]" value="MATH">
                                         Mathematics
                                     </label>
                                     <label class="form-check-label">
-                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input"
-                                               name="category[]" value="CHEM">
+                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input" name="category[]" value="CHEM">
                                         Chemistry
                                     </label>
                                 </div>
@@ -65,22 +82,19 @@
                             <span style="width:40%; display: inline-block;">
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input"
-                                               name="category[]" value="BIO">
+                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input" name="category[]" value="BIO">
                                         Biology
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input"
-                                               name="category[]" value="TOYS">
+                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input" name="category[]" value="TOYS">
                                         Toys
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input"
-                                               name="category[]" value="CRAFT">
+                                        <input type="checkbox" onchange="checkboxChange()" class="form-check-input" name="category[]" value="CRAFT">
                                         Crafts
                                     </label>
                                 </div>
@@ -90,14 +104,14 @@
                     <br>
                     <br>
 
-                <div class="row justify-content-center">
-                    <button type="button"
-                            class="btn btn-red js-form-load d-flex justify-content-center align-content-between"
-                            data-url="{% url 'unlisted-add' %}">
-                            <i class="material-icons">add</i>
-                            <span>Add Unlisted Item</span>
-                    </button>
-                </div>
+{#                <div class="row justify-content-center">#}
+{#                    <button type="button"#}
+{#                            class="btn btn-red js-form-load d-flex justify-content-center align-content-between"#}
+{#                            data-url="{% url 'unlisted-add' %}">#}
+{#                            <i class="material-icons">add</i>#}
+{#                            <span>Add Unlisted Item</span>#}
+{#                    </button>#}
+{#                </div>#}
 
             </div>
 
@@ -108,8 +122,9 @@
                 <!-- New search bar -->
                     <form onsubmit="filter(this); return false;">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search"
-                                   name="term" oninput="change(value)">
+                            <input type="text" class="form-control" placeholder="Search" name="term" oninput="change(value)">
+
+
                             <div class="input-group-btn">
                                 <button class="btn btn-default" type="submit" value="Search">
                                     <i class="material-icons">search</i>
@@ -129,44 +144,7 @@
 
             <!-- column three -->
                 <div class="col-lg-3 col-md-3 bg-white">
-                    <div class="sticky-top" style="top:70px">
-                        <h1 class="center">Your Order</h1>
 
-                        <hr style="width:80%">
-
-                        <table class="table" id="content-table">
-                            <thead>
-                                <tr>
-                                    <th>QTY</th>
-                                    <th>Item</th>
-                                    <th>Edit/Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% include 'materials/includes/order_content_list.html' %}
-                            </tbody>
-                        </table>
-
-                        <br>
-
-                        <div class="text-center">
-                        {% if order.status == 1 %}
-                            <button class="btn btn-red btn-lg"
-                                    onclick="location.href='{% url 'order-review' order.number %}'">
-                                Review & Place Order
-                            </button>
-                        {% elif order.status == 'PLACED' or 'FILLED' or 'UPDATED'%}
-                            <button class="btn btn-red btn-lg"
-                                    onclick="location.href='{% url 'order-review' order.number %}'">
-                                Review & Update Order
-                            </button>
-                        {% endif %}
-                        </div>
-
-                        <!-- Return to top button -->
-                        <button onclick="topFunction()" id="topbtn" title="Go to top">Top</button>
-
-                    </div>
                 </div>
 
         </div>
