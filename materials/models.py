@@ -3,7 +3,7 @@ from django.conf import settings
 
 
 ############################################################################
-# Class Model(s)
+# Course Model(s)
 ############################################################################
 from django.db.models import Q
 

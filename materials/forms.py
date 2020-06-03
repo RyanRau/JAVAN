@@ -57,9 +57,15 @@ class UnlistedAddForm(forms.ModelForm):
 
 
 ########################################################################################
+# Item forms
+class ItemAddForm(forms.ModelForm):
+    class Meta:
+        model = Item
+        fields = ('item', 'category', 'description', 'location')
+
+
+########################################################################################
 # Course forms
-
-
 class CourseOrderAdd(forms.Form):
     order_number = forms.IntegerField(required=True)
     username = forms.ModelMultipleChoiceField(label='Students', queryset=CustomUser.objects.none(),

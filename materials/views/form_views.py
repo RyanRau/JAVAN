@@ -1,6 +1,7 @@
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse
 
 from materials.forms import *
 from materials.models import *
@@ -117,7 +118,7 @@ def unlisted_add(request):
     else:
         form = UnlistedAddForm()
     context = {'form': form,
-               'class': 'js-form-listed',
+               'class': 'js-form-list',
                'action': request.path,
                'header': "Add Unlisted Item",
                'cancel': "Cancel",
@@ -133,7 +134,7 @@ def content_edit(request, pk):
     else:
         form = UnlistedAddForm(instance=content)
     context = {'form': form,
-               'class': 'js-form-listed',
+               'class': 'js-form-list',
                'action': request.path,
                'header': "Update Item",
                'cancel': "Cancel",
@@ -153,12 +154,72 @@ def content_delete(request, pk):
         contents = OrderContent.objects.filter(order=order)
 
         data['html_content_list'] = render_to_string('materials/includes/order_content_list.html', {
-            'contents': contents,
+            'contents': contents
         })
     else:
         context = {'content': content}
         data['html_form'] = render_to_string('materials/includes/order_content_delete.html', context, request=request)
     return JsonResponse(data)
+
+
+########################################################################################
+# Item add/edit/delete form
+def save_generic_form(request, form, template_name, form_info):
+    data = dict()
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+
+            data['form_is_valid'] = True
+            # Success
+            return redirect('browse-items')
+        else:
+            data['form_is_valid'] = False
+
+            # Failed
+            html = "<html><body>" \
+                   "An error has occurred <a href='" + reverse('browse-items') + "'>Click here to return</a>" \
+                   "</body></html>"
+            return HttpResponse(html)
+
+    context = {
+        'form': form,
+    }
+    context.update(form_info)
+    data['html_form'] = render_to_string(template_name, context, request=request)
+    return JsonResponse(data)
+
+
+def item_add(request):
+    if request.method == 'POST':
+        form = ItemAddForm(request.POST)
+    else:
+        form = ItemAddForm()
+    context = {'form': form,
+               'class': 'js-form',
+               'action': request.path,
+               'header': "Create New Item",
+               'cancel': "Cancel",
+               'submit': "Create Item"}
+    return save_generic_form(request, form, 'materials/includes/generic_modal_form.html', context)
+
+
+def item_edit(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+    if request.method == 'POST':
+        form = ItemAddForm(request.POST, instance=item)
+    else:
+        form = ItemAddForm(instance=item)
+    context = {'form': form,
+               'class': 'js-form',
+               'action': request.path,
+               'header': "Update Item",
+               'cancel': "Cancel",
+               'submit': "Update item"}
+    return save_generic_form(request, form, 'materials/includes/generic_modal_form.html', context)
+
+
+
 
 
 ########################################################################################

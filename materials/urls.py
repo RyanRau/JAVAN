@@ -6,6 +6,8 @@ from materials.views import views, form_views, status_views, helpers
 urlpatterns = [
     path('', views.index, name='materials-index'),
 
+    path('browse', views.browse_items, name='browse-items'),
+
     ########################################################################################
     # Urls for editing reservation details
     # /order/(id)/...
@@ -31,6 +33,10 @@ urlpatterns = [
 
     # Update pickup information
     path('order/<int:pk>/pickup/update', form_views.pickup_update, name='pickup-update'),
+
+    # Item add/edit/delete
+    path('item/add', form_views.item_add, name='item-add'),
+    path('item/<int:pk>/edit', form_views.item_edit, name='item-edit'),
 
     ############## Courses ################
     path('course/create', form_views.course_create, name='course-create'),

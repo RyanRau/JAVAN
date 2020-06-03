@@ -34,8 +34,6 @@ def index(request):
     else:
         elevated = False
 
-
-
         x = request.user.classification
         orders = get_orders(request.user)
         # courses = get_corresponding_courses(orders)
@@ -65,6 +63,7 @@ def order_view(request, pk):
         'items': items,
         'contents': complete_order.order_content,
         'order': complete_order.order,
+        'flag': 0
     })
     return render(request, "./materials/order_view.html", context)
 
@@ -86,3 +85,23 @@ def order_review(request, pk):
         # 'canSelfFill': canSelfFill
     })
     return render(request, 'materials/order_review.html', context)
+
+
+def browse_items(request):
+    items = Item.objects.all()
+
+    # Allows for Work Study or higher to edit items
+    try:
+        if request.user.classification >= 2:
+            elevated = True
+        else:
+            elevated = False
+    except:
+        elevated = False
+
+    context = base_context(request)
+    context.update({
+        'items': items,
+        'elevated': elevated
+    })
+    return render(request, "./materials/browse_items.html", context)

@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <script>
+        // Only lets one item be un-collapsed at a time
+        {#$(document).on('click',function(){#}
+	    {#    $('.collapse').collapse('hide');#}
+        {#})#}
+    </script>
+
 {% endblock head %}
 
 {% block body %}
@@ -65,10 +73,23 @@
 
 
                 <!-- Course Responsibilities -->
-                {% for course in courses %}
-                <h1 class="header"> {{ course.course.name }} </h1>
+                <h1 class="header"> Your Courses </h1>
                 <hr width="90%">
-                    <div class="row justify-content-center">
+                {% for course in courses %}
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h1 class="header"> {{ course.course.name }} </h1>
+                    </div>
+                    <div class="col-lg-5">
+                        <div style="float: right;" data-toggle="collapse" data-target="#drop{{course.course.pk}}">
+                            <i style="font-size: 80px" class="material-icons">keyboard_arrow_down</i>
+{#                            <i style="font-size: 80px" class="material-icons">keyboard_arrow_up</i>#}
+                        </div>
+                    </div>
+                </div>
+
+                <hr width="90%">
+                    <div id="drop{{course.course.pk}}" class="row justify-content-center collapse">
                         {%  for complete_order in course.orders  %}
                         <div class="col-auto mb-3">
                             <div class="card" style="width: 15rem; height: 15rem;">
@@ -131,7 +152,8 @@
 
                 {% endfor %}
                 <!-- Other order responsibilities -->
-
+                <h1 class="header"> Misc Orders </h1>
+                <hr width="90%">
 
             </div>
 

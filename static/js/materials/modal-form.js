@@ -44,6 +44,7 @@ $(function () {
 
     // Updates list and save form
     var list_saveForm = function () {
+
       var form = $(this);
       $.ajax({
         url: form.attr("action"),
@@ -72,6 +73,8 @@ $(function () {
 /////////////////////// Modal Form Triggers //////////////////////////////////
   // Generic Form
     $(".js-form-load").click(loadForm);
+    $("#item-list").on("click", ".js-form-load", loadForm);
+    $("#content-table").on("click", ".js-form-load", loadForm);
     $("#modal-form").on("submit", ".js-form", saveForm);
     $("#modal-form").on("submit", ".js-form-list", list_saveForm);
 
