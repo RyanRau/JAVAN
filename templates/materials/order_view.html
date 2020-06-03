@@ -4,6 +4,7 @@
 
 {% block head %}
     {% load static from staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
     <script src="{% static 'js/materials/item-filter.js' %}"></script>
     <script>
         setFlag(0);
@@ -139,9 +140,6 @@
                             <thead>
                                 <tr>
                                     <th>QTY</th>
-                        <div class="text-center">
-                        {% if order.status == 1 %}
-                            <button class="bt
                                     <th>Item</th>
                                     <th>Edit/Delete</th>
                                 </tr>
@@ -152,7 +150,10 @@
                         </table>
 
                         <br>
-n btn-red btn-lg"
+
+                        <div class="text-center">
+                        {% if order.status == 1 %}
+                            <button class="btn btn-red btn-lg"
                                     onclick="location.href='{% url 'order-review' order.number %}'">
                                 Review & Place Order
                             </button>
