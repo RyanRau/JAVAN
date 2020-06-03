@@ -51,7 +51,7 @@ def book_details(request, pk):
             model.save()
 
             data['form_is_valid'] = True
-
+            ## RYAN: this bit gets the checked out stuff and the js file uses this to fill the list on the right col
             content = Checkout.objects.filter(user_checkout=user)
 
             data['html_content_list'] = render_to_string('library/user_check_outs.html',
@@ -93,9 +93,12 @@ def edit_book(request, pk):
         form = AddBookForm(request.POST, instance=book)
     else:
         form = AddBookForm(instance=book)
+
+    ## RYAN: js-form/js-form-listed refers to class that triggers js ajax call
+    ## RYAN: js-form: no updating content js-form-list: update content
     context = {
         'form': form,
-        'class': 'js-form',
+        'class': 'js-form-list',
         'action': request.path,
         'header': "Edit Book",
         'cancel': "Cancel",
@@ -110,7 +113,7 @@ def add_book(request):
     else:
         form = AddBookForm()
     context = {'form': form,
-               'class': 'js-form',
+               'class': 'js-form-list',
                'action': request.path,
                'header': "Add Book",
                'cancel': "Cancel",

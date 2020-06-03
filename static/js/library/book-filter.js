@@ -32,7 +32,7 @@ function getItems(){
         url: '/library/books',
 
     success: function(resp) {
-        $("#book-list").html(resp);
+        $("#content-list").html(resp);
     },
     error: function() {
     //      TODO: Add some error handling

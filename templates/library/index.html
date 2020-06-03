@@ -6,9 +6,6 @@
     {% load static from staticfiles %}
     <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
     <script src="{% static 'js/library/book-filter.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 {% endblock head %}
 
 {% block body %}
@@ -63,7 +60,8 @@
                 <hr>
                 <!--            listing books-->
                 <div class="row">
-                    <div id="book-list" style="width: 100%;"></div>
+{#                    ## RYAN: renamed to make generic#}
+                    <div id="content-list" style="width: 100%;"></div>
                 </div>
             </div>
 

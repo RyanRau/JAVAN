@@ -41,7 +41,7 @@ function getItems(){
         url: '/materials/items',
 
     success: function(resp) {
-        $("#item-list").html(resp);
+        $("#content-list").html(resp);
     },
     error: function() {
     //      TODO: Add some error handling

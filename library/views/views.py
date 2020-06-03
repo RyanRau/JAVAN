@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from django.views import generic
 
-from library.models import Book
+from library.models import Book, Checkout
 from materials.forms import *
 #change this ^^
 
@@ -20,9 +20,14 @@ def index(request):
 
     books = Book.objects.all()
 
+    ## RYAN: Need to init the checked out books list...
+    ## RYAN: since its an include you just need to pass the content along in the context
+    content = Checkout.objects.filter(user_checkout=request.user)
+
     context = base_context(request)
     context.update({
         'books': books,
+        'contents': content
     })
     return render(request, "./library/index.html", context)
 

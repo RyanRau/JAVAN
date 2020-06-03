@@ -3,6 +3,8 @@
 {% block title %}Order {{ order.number }}{% endblock %}
 
 {% block head %}
+    {% load static from staticfiles %}
+    <script src="{% static 'js/materials/item-filter.js' %}"></script>
     <script>
         setFlag(0);
         getItems("");
@@ -121,7 +123,7 @@
 
                 <!-- items -->
                     <div class="row">
-                        <div id="item-list" style="width: 100%;"></div>
+                        <div id="content-list" style="width: 100%;"></div>
                     </div>
 
                 </div>
