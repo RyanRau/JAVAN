@@ -130,6 +130,9 @@
                             <thead>
                                 <tr>
                                     <th>QTY</th>
+                        <div class="text-center">
+                        {% if order.status == 1 %}
+                            <button class="bt
                                     <th>Item</th>
                                     <th>Edit/Delete</th>
                                 </tr>
@@ -140,10 +143,7 @@
                         </table>
 
                         <br>
-
-                        <div class="text-center">
-                        {% if order.status == 1 %}
-                            <button class="btn btn-red btn-lg"
+n btn-red btn-lg"
                                     onclick="location.href='{% url 'order-review' order.number %}'">
                                 Review & Place Order
                             </button>

@@ -1,0 +1,60 @@
+<form method="post" action="{% url 'book-details' book.id %}" class="js-form-list">
+    {% csrf_token %}
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Book Details</h4>
+    </div>
+
+    <div class="modal-body">
+    <div style="foat:left;">
+        <img src="http://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg"/>
+    </div>
+    <div style='float:left;'>
+        <table>
+            <tr>
+                <th style="width:85px;">Title:</th>
+                <td>{{ book.title }}</td>
+            </tr>
+            <tr>
+                <th>Author:</th>
+                <td>{{ book.author }}</td>
+            </tr>
+            <tr>
+                <th>ISBN:</th>
+                <td>{{ book.isbn }}</td>
+            </tr>
+            <tr>
+                <th>Quantity:</th>
+                <td>{{ book.quantity }}</td>
+            </tr>
+        </table>
+    </div>
+        <br>
+
+        <p><b>Category:</b>
+        <br>{{ book.category }}</p>
+
+        {% load widget_tweaks %}
+
+        {% for field in form %}
+            <div class="form-group{% if field.errors %} has-error{% endif %}">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% render_field field class="form-control" %}
+                {% for error in field.errors %}
+                    <p class="help-block">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        {{ error }}
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-red">Checkout</button>
+    </div>
+</form>

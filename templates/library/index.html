@@ -5,36 +5,112 @@
 {% block head %}
     {% load static from staticfiles %}
     <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
+    <script src="{% static 'js/library/book-filter.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 {% endblock head %}
 
 {% block body %}
     {% include "../base/includes/nav.html" %}
+    <div class="container-fluid container-offset" style="height: 1000px">
 
-    <div class="container-offset">
-        <div class="row">
-            <div class="col-lg-1"></div>
+        <!-- top bar -->
+        <div class="row topBar bg-white">
+            <div class="row inTopBar">
+                <div class="col-lg-12 w100">
+                    <!--                    <p class="inBlock "><a class="aBack d-flex justify-content-center align-content-between"-->
+                    <!--                                           href="#">-->
+                    <!--                        <i class="material-icons">chevron_left</i>Hmm-->
+                    <!--                    </a></p>-->
+                    <p class="inBlock fRight" style="color: gray">Checkout Details</p>
+                </div>
+            </div>
+        </div>
 
-            <div class="col-lg-10 main-content">
-                <h1> DEMO </h1>
-                <button type="button"
-                        class="btn btn-red js-form-load"
-                        data-url="{% url 'demo-form' %}">
-                    DEMO FORM BUTTOPN
-                </button>
+
+        <div class="row h-100">
+            <!--    col 1 -->
+            <!--        categories for rn will change -->
+            <div class="col-lg-3 bg-white ">
+                <div class="row justify-content-center">
+                    <button type="button"
+                            class="btn btn-red js-form-load d-flex justify-content-center align-content-between"
+                            data-url="{% url 'add-book' %}">
+                            <i class="material-icons">add</i>
+                            <span>Add Book</span>
+                    </button>
+                </div>
             </div>
 
-            <div class="col-lg-1"></div>
-        </div>
-    </div>
+            <!--    col2  Library Catalog  -->
+            <div class="col-lg-6 bg-white">
+                <h1>Library Catalog</h1>
+                <!-- New search bar -->
+                <form onsubmit="filter(this); return false;">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="term"
+                               oninput="change(value)">
 
+
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit" value="Search">
+                                <i class="material-icons">search</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+                <!--            listing books-->
+                <div class="row">
+                    <div id="book-list" style="width: 100%;"></div>
+                </div>
+            </div>
+
+            <!-- col3 checkout -->
+            <div class="col-lg-3 col-md-3 bg-white">
+                <div class="sticky-top" style="top:70px">
+                    <h1 class="center">Checked Out</h1>
+{##}
+                    <hr style="width:80%">
+{##}
+                    <table class="table" id="content-table">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Date Checked Out</th>
+{#                            <th>Edit/Delete</th>#}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {%  include 'library/user_check_outs.html' %}
+                        </tbody>
+                    </table>
+{##}
+                    <br>
+{##}
+                    <div class="text-center">
+{#                        <button class="btn btn-red btn-lg"#}
+{#                                onclick="location.href='#'">#}
+{#                            Checkout#}
+{#                        </button>#}
+{#                        <button class="btn btn-red btn-lg"#}
+{#                                onclick="location.href='#'">#}
+{#                            Review & Update Order#}
+{#                        </button>#}
+                    </div>
+{##}
+                    <!-- Return to top button -->
+                    <button onclick="topFunction()" id="topbtn" title="Go to top">Top</button>
+{##}
+                </div>
+            </div>
+        </div>
+
+    </div>
     <div class="modal fade" id="modal-form">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <script src="{% static 'django_select2/django_select2.js' %}"></script>
-            </div>
+            <div class="modal-content"></div>
         </div>
     </div>
-
 {% endblock body %}
