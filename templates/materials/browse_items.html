@@ -7,8 +7,11 @@
     <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
 
     <!-- Scripts for item list/filter -->
-    <script src="{% static 'js/materials/item-filter.js' %}"></script>
     <script>
+        {% if elevated %}
+            setFlag(1);
+        {% endif %}
+
         getItems("");
     </script>
 

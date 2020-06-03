@@ -2,6 +2,9 @@ var query = "";
 var category = [];
 var flag;
 
+<!-- flag 0: order add list -->
+<!-- flag 1: admin list -->
+<!-- flag else: view only list -->
 function setFlag(val) {
     flag = val;
     console.log(flag)

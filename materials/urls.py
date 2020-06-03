@@ -34,6 +34,10 @@ urlpatterns = [
     # Update pickup information
     path('order/<int:pk>/pickup/update', form_views.pickup_update, name='pickup-update'),
 
+    # Item add/edit/delete
+    path('item/add', form_views.item_add, name='item-add'),
+    path('item/<int:pk>/edit', form_views.item_edit, name='item-edit'),
+
     ############## Courses ################
     path('course/create', form_views.course_create, name='course-create'),
     # Create new order for course
