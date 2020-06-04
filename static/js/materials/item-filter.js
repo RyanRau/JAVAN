@@ -31,6 +31,10 @@ function checkboxChange(){
     getItems();
 }
 
+function refresh() {
+    getItems();
+}
+
 function getItems(){
     $.ajax({
         type: 'GET',

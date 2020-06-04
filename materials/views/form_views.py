@@ -169,18 +169,9 @@ def save_generic_form(request, form, template_name, form_info):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-
             data['form_is_valid'] = True
-            # Success
-            return redirect('browse-items')
         else:
             data['form_is_valid'] = False
-
-            # Failed
-            html = "<html><body>" \
-                   "An error has occurred <a href='" + reverse('browse-items') + "'>Click here to return</a>" \
-                   "</body></html>"
-            return HttpResponse(html)
 
     context = {
         'form': form,

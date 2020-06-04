@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
 
     <!-- Scripts for item list/filter -->
+    <script src="{% static 'js/materials/item-filter.js' %}"></script>
     <script>
         {% if elevated %}
             setFlag(1);
@@ -36,8 +37,9 @@
 {% block body %}
     {% include "../base/includes/nav.html" %}
 
-
     <div class="container-fluid container-offset" style="height: 1000px">
+    <!-- Return to top button -->
+        <button onclick="topFunction()" id="topbtn" title="Go to top">Top</button>
 
     <!-- top bar -->
         <div class="row topBar bg-white">
@@ -107,14 +109,14 @@
                     <br>
                     <br>
 
-{#                <div class="row justify-content-center">#}
-{#                    <button type="button"#}
-{#                            class="btn btn-red js-form-load d-flex justify-content-center align-content-between"#}
-{#                            data-url="{% url 'unlisted-add' %}">#}
-{#                            <i class="material-icons">add</i>#}
-{#                            <span>Add Unlisted Item</span>#}
-{#                    </button>#}
-{#                </div>#}
+                <div class="row justify-content-center">
+                    <button type="button"
+                            class="btn btn-red js-form-load d-flex justify-content-center align-content-between"
+                            data-url="{% url 'item-add' %}">
+                            <i class="material-icons">add</i>
+                            <span>Add New Item</span>
+                    </button>
+                </div>
 
             </div>
 
@@ -140,7 +142,7 @@
 
                 <!-- items -->
                     <div class="row">
-                        <div id="item-list" style="width: 100%;"></div>
+                        <div id="content-list" style="width: 100%;"></div>
                     </div>
 
                 </div>

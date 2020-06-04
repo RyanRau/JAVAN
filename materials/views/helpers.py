@@ -10,14 +10,12 @@ from materials.models import *
 ############################################################################
 # Ajax
 def item_list(request):
-    items = Item.objects.all()
+    items = Item.objects.order_by('category', 'item')
 
-    print(request.path)
     query = request.GET.get("query")
     checks = request.GET.getlist("category[]")
     flag = request.GET.get("flag")
 
-    print(flag)
 
     items = items.filter(Q(item__icontains=query) | Q(description__icontains=query))
 
