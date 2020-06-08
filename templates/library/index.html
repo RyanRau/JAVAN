@@ -16,11 +16,13 @@
         <div class="row topBar bg-white">
             <div class="row inTopBar">
                 <div class="col-lg-12 w100">
-                    <!--                    <p class="inBlock "><a class="aBack d-flex justify-content-center align-content-between"-->
-                    <!--                                           href="#">-->
-                    <!--                        <i class="material-icons">chevron_left</i>Hmm-->
-                    <!--                    </a></p>-->
-                    <p class="inBlock fRight" style="color: gray">Checkout Details</p>
+                    {% if request.user.classification > 1 %}
+                    <p class="inBlock fRight" style="color: gray">
+                        <a class="aBack d-flex justify-content-center align-content-between"
+                           href="{% url 'all-checkouts' %}">
+                            View All Checkouts<i class="material-icons">chevron_right</i>
+                        </a></p>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -28,15 +30,22 @@
 
         <div class="row h-100">
             <!--    col 1 -->
-            <!--        categories for rn will change -->
             <div class="col-lg-3 bg-white ">
                 <div class="row justify-content-center">
+                    {% if request.user.classification > 1 %}
                     <button type="button"
                             class="btn btn-red js-form-load d-flex justify-content-center align-content-between"
                             data-url="{% url 'add-book' %}">
                             <i class="material-icons">add</i>
                             <span>Add Book</span>
                     </button>
+{#                        <button type="button"#}
+{#                            class="btn btn-red js-form-load d-flex justify-content-center align-content-between"#}
+{#                            data-url="{% url 'new-checkout' %}">#}
+{#                            <i class="material-icons">add</i>#}
+{#                            <span>Create Checkout</span>#}
+{#                        </button>#}
+                    {% endif %}
                 </div>
             </div>
 
@@ -68,7 +77,8 @@
             <!-- col3 checkout -->
             <div class="col-lg-3 col-md-3 bg-white">
                 <div class="sticky-top" style="top:70px">
-                    <h1 class="center">Checked Out</h1>
+                    {% if request.user.is_authenticated %}
+                    <h1 class="center">Your Checkouts</h1>
 {##}
                     <hr style="width:80%">
 {##}
@@ -88,16 +98,9 @@
                     <br>
 {##}
                     <div class="text-center">
-{#                        <button class="btn btn-red btn-lg"#}
-{#                                onclick="location.href='#'">#}
-{#                            Checkout#}
-{#                        </button>#}
-{#                        <button class="btn btn-red btn-lg"#}
-{#                                onclick="location.href='#'">#}
-{#                            Review & Update Order#}
-{#                        </button>#}
+
                     </div>
-{##}
+{##}                {% endif %}
                     <!-- Return to top button -->
                     <button onclick="topFunction()" id="topbtn" title="Go to top">Top</button>
 {##}

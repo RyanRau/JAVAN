@@ -32,6 +32,36 @@ def index(request):
     return render(request, "./library/index.html", context)
 
 
+def all_checkouts(request):
+    checkouts = Checkout.objects.all()
+
+    context = base_context(request)
+    context.update({
+        'checkouts': checkouts,
+    })
+    return render(request, "./library/all_checkouts.html", context)
+
+
+## PROBLEM
+# delete works but page stuff needs fix
+# works but im not sure if its the right way to do it..
+# TODO: maybe like selecting multiple to checkout like on admin page
+# TODO: after deletion move trello card to archive
+def delete_checkout(request, pk):
+    checkout = get_object_or_404(Checkout, pk=pk)
+    book = checkout.book
+    checkout.delete()
+    book.quantity = book.quantity + 1
+    book.save()
+    checkouts = Checkout.objects.all()
+
+    context = base_context(request)
+    context.update({
+        'checkouts': checkouts,
+    })
+    return render(request, "./library/all_checkouts.html", context)
+
+
 # Add request and user status to context
 def base_context(request):
     view = request.path_info

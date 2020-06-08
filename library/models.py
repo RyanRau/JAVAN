@@ -9,9 +9,13 @@ class Book(models.Model):
     category = models.CharField(max_length=200)
     quantity = models.IntegerField(null=True)
 
+    def __str__(self):
+        return self.title
 
+
+# TODO: trello card things
 class Checkout(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=False)
     user_checkout = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
