@@ -82,6 +82,16 @@ def get_responsible_orders(user):
     return responsible_orders
 
 
+def get_misc_orders():
+    orders = Order.objects.filter(master_teacher__isnull=False)
+    misc_orders = []
+
+    for order in orders:
+        misc_orders.append(get_complete_order(order.pk))
+
+    return misc_orders
+
+
 ############################################################################
 # Courses
 # Given orders, will return a list of the corresponding courses

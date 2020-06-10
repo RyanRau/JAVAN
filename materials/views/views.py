@@ -21,16 +21,32 @@ def index(request):
 
     if request.user.classification >= 3:
         elevated = True
-        responsible_orders = get_responsible_orders(request.user)
 
-        taught_courses = get_taught_course(request.user)
-        taught_courses_complete = []
+        if request.user.classification == 3:
+            responsible_orders = get_responsible_orders(request.user)
 
-        for course in taught_courses:
-            taught_courses_complete.append(get_complete_course(course.pk))
+            taught_courses = get_taught_course(request.user)
+            taught_courses_complete = []
+
+            for course in taught_courses:
+                taught_courses_complete.append(get_complete_course(course.pk))
+
+        elif request.user.classification == 4:
+            responsible_orders = get_misc_orders()
+
+            taught_courses = Course.objects.all()
+            taught_courses_complete = []
+
+            for course in taught_courses:
+                taught_courses_complete.append(get_complete_course(course.pk))
+
+        else:
+            elevated = False
 
     else:
         elevated = False
+        taught_courses_complete = []
+        responsible_orders = []
 
         x = request.user.classification
         orders = get_orders(request.user)
