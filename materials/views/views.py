@@ -1,11 +1,9 @@
-from django.contrib.auth.decorators import login_required
-from django.db.models import Q
-from django.shortcuts import render, HttpResponse, get_object_or_404
-from materials.models import Order, OrderMember
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from .helpers import *
 
 
+########################################################################################
 # .../materials/
 @login_required(login_url='/users/login/')
 def index(request):
@@ -44,10 +42,12 @@ def index(request):
         'complete_orders': complete_orders,
         'isElevated': elevated,
         'courses': taught_courses_complete,
+        'misc_complete_orders':  responsible_orders
     })
     return render(request, "./materials/index.html", context)
 
 
+########################################################################################
 # .../materials/order/<int:id>
 # pk: Order
 @login_required(login_url='/users/login/')
@@ -87,6 +87,28 @@ def order_review(request, pk):
     return render(request, 'materials/order_review.html', context)
 
 
+########################################################################################
+# .../materials/kiosk
+# Only Kiosk user(s) can access page
+@login_required(login_url='/users/login/')
+@user_passes_test(is_kiosk)
+def kiosk(request):
+    orders = Order.objects.all()
+    orders = orders.exclude(Q(status=0) |
+                            Q(status=7) | Q(status=8) | Q(status=9))
+    orders = orders.order_by('number')
+    content = OrderContent.objects.all()
+
+    context = {
+        'orders': orders,
+        'content': content
+    }
+    return render(request, 'materials/kiosk.html', context)
+
+
+########################################################################################
+# .../materials/browse
+# Doesn't require user to be logged in.
 def browse_items(request):
     items = Item.objects.all()
 

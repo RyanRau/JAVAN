@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>{% block title %}UTCH KIOSK{% endblock %}</title>
+
+    <!-- CSS -->
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="{% static 'js/global/modal-form.js' %}"></script>
+
+    <!-- Local Scripts -->
+    <script>
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+          if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("topbtn").style.display = "block";
+          } else {
+            document.getElementById("topbtn").style.display = "none";
+          }
+        }
+
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
+
+        $(document).on('click',function(){
+	        $('.collapse').collapse('hide');
+        })
+    </script>
+
+</head>
+    <body onload="JavaScript:timedRefresh(100*1000);">
+    <div class="container" style="height: 5000px; background-color: white;">
+
+        <!-- Return to top button -->
+        <button onclick="topFunction()" id="topbtn" title="Go to top">Top</button>
+
+    <div class="row" style="padding-left: 20px; padding-right: 20px;">
+        <div class="row w-100" style="margin-top: 20px">
+
+            <div class="col-lg-1 bg-white">
+            </div>
+
+            <div class="col-lg-10 bg-white">
+                <h1>Orders</h1>
+                <hr>
+
+                    {%  for order in orders %}
+
+                        {% if order.status is not 'RETURNED' %}
+
+                        <div style="display: inline-block; width: 50%;">
+
+                            <h3>Order: {{ order.number }}</h3>
+                            <h5>Owner: {{ order.owner }} Co-Owner: {{ order.co_owner }}</h5>
+                            <h5>Status: {{ order.status }}</h5>
+
+                        </div>
+
+                        <div style="display: inline-block; float: right; margin-top: 30px;">
+                            <div>
+                                {% if order.status ==  6 %}
+                                    <form onsubmit="return confirm('Are you sure you want to check in?')" action="{% url 'order-status' order.number 7 1 %}">
+                                        <button class="btn btn-red btn-lg" type="submit">Check In</button>
+                                    </form>
+                                {% elif order.status == 2 %}
+                                    <form action="{% url 'order-status' order.number 6 1 %}">
+                                        <button id="btn" class="btn btn-red btn-lg" type="submit" onclick="confirm('This order has yet to be filled. Are you sure you want to check out?')">Check Out</button>
+                                    </form>
+                                {% elif order.status == 3 %}
+                                    <form onsubmit="return confirm('This Order has yet to be filled. Are you sure you want to check out?')" action="{% url 'order-status' order.number 6 1 %}">
+                                        <button id="btn" class="btn btn-red btn-lg" type="submit" >Check Out</button>
+                                    </form>
+                                {% elif order.status == 4 %}
+                                    <form onsubmit="return confirm('Are you sure you want to check out?')" action="{% url 'order-status' order.number 6 1 %}">
+                                        <button class="btn btn-red btn-lg" type="submit">Check Out</button>
+                                    </form>
+                                {% elif order.status == 5 %}
+                                    <form onsubmit="return confirm('Are you sure you want to check out?')" action="{% url 'order-status' order.number 6 1 %}">
+                                        <button class="btn btn-red btn-lg" type="submit">Check Out</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <button style="width: 115px" type="button" class="btn btn-grey" data-toggle="collapse" data-target="#drop{{order.number}}">Contents</button>
+                            </div>
+                        </div>
+
+                        <div id="drop{{order.number}}" class="collapse">
+                            <br>
+                            <h4>Order Contents</h4>
+                            <hr>
+                            {% for item in content %}
+                                {% if item.order.number == order.number %}
+                                <li>{{ item.quantity }} - {{ item.item }}: {{ item.other_notes }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <hr style="width: 80%">
+                        {% endif %}
+                    {% endfor %}
+            </div>
+
+            <div class="col-lg-1 bg-white">
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+    </body>
+
+

@@ -16,7 +16,6 @@ def item_list(request):
     checks = request.GET.getlist("category[]")
     flag = request.GET.get("flag")
 
-
     items = items.filter(Q(item__icontains=query) | Q(description__icontains=query))
 
     if checks:
@@ -76,9 +75,9 @@ def get_responsible_orders(user):
     responsible_orders = []
 
     for order in orders:
-        tmp_order = get_complete_order(order.pk)
-        if user not in tmp_order.members:
-            responsible_orders.append(get_complete_order(order.pk))
+        # tmp_order = get_complete_order(order.pk)
+        # if user not in tmp_order.members:
+        responsible_orders.append(get_complete_order(order.pk))
 
     return responsible_orders
 
@@ -91,6 +90,14 @@ def get_corresponding_courses(orders):
     for order in orders:
         courses.append(Course.objects.get(pk=order.course))
     return courses
+
+
+def get_course_members(course_id):
+    members = []
+    for m in CourseMember.objects.filter(order=course_id):
+        members.append(m)
+
+    return members
 
 
 def get_taught_course(user):
@@ -126,6 +133,10 @@ def password_check(function):
             return HttpResponseRedirect('/users/password/')
         return function(request, *args, **kwargs)
     return _function
+
+
+def is_kiosk(user):
+    return user.groups.filter(name='Kiosk').exists()
 
 
 # Add request and user status to context

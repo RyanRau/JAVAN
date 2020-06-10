@@ -210,13 +210,82 @@ def item_edit(request, pk):
     return save_generic_form(request, form, 'materials/includes/generic_modal_form.html', context)
 
 
-
-
-
 ########################################################################################
 # Course related forms
+def course_save(request, form, course_pk=None):
+    data = dict()
+    if request.method == 'POST':
+        # Creates new order
+        if form.isUpdate is False:
+            try:
+                Order.objects.get(pk=request.POST['order_number'])
+                orderExists = True
+            except:
+                orderExists = False
+
+            if orderExists:
+                form.add_error('order_number', 'This Order number has already been taken')
+                data['form_is_valid'] = False
+            else:
+                data['form_is_valid'] = True
+
+                # Creates course
+                course = Course()
+                course.code = request.POST['course_code']
+                course.name = request.POST['course_name']
+                course.teacher = CustomUser.objects.get(pk=request.POST['master_teacher'])
+                course.save()
+
+        # Updates Course
+        else:
+            if course_pk:
+                course = Order.objects.get(pk=course_pk)
+
+                data['form_is_valid'] = True
+
+                # Deletes members
+                members = get_order_members(course_pk)
+                for member in members:
+                    OrderMember.objects.get(pk=member.pk).delete()
+            else:
+                data['form_is_valid'] = False
+
+        if course:
+            # Creates member association
+            students = dict(request.POST)['username']
+            for student in students:
+                course_member = CourseMember()
+                course_member.course = course
+                course_member.course_member = CustomUser.objects.get(pk=student)
+                course_member.save()
+        else:
+            data['form_is_valid'] = False
+
+    else:
+        data['form_is_valid'] = False
+
+    if form.isUpdate:
+        submit_text = "Update"
+    else:
+        submit_text = "Create"
+
+    context = {
+        'form': form,
+        'action': request.path,
+        'submit': submit_text
+    }
+
+    data['html_form'] = render_to_string('materials/includes/multiselect_form.html', context, request=request)
+    return JsonResponse(data)
+
+
 def course_create(request):
-    x = 1
+    if request.method == 'POST':
+        form = CourseCreateForm(False, request.POST)
+    else:
+        form = CourseCreateForm(False)
+
+    return course_save(request, form)
 
 
 def course_order_save(request, form, course_pk=None):
@@ -264,9 +333,15 @@ def course_order_save(request, form, course_pk=None):
     else:
         data['form_is_valid'] = False
 
+    if form.isUpdate:
+        submit_text = "Update"
+    else:
+        submit_text = "Create"
+
     context = {
         'form': form,
         'action': request.path,
+        'submit': submit_text
     }
 
     data['html_form'] = render_to_string('materials/includes/multiselect_form.html', context, request=request)
@@ -299,3 +374,77 @@ def course_order_add(request, pk):
         form = CourseOrderAdd(False)
 
     return course_order_save(request, form, pk)
+
+
+def misc_order_save(request, form):
+    data = dict()
+    if request.method == 'POST':
+        # Creates new order
+        if form.isUpdate is False:
+            try:
+                Order.objects.get(pk=request.POST['order_number'])
+                orderExists = True
+            except:
+                orderExists = False
+
+            if orderExists:
+                form.add_error('order_number', 'This Order number has already been taken')
+                data['form_is_valid'] = False
+            else:
+                data['form_is_valid'] = True
+
+                # Creates order
+                order = Order()
+                order.number = request.POST['order_number']
+                order.master_teacher = request.user
+                order.save()
+
+        # Updates order
+        else:
+            order = Order.objects.get(pk=request.POST['order_number'])
+
+            data['form_is_valid'] = True
+
+            # Deletes members
+            members = get_order_members(request.POST['order_number'])
+            for member in members:
+                OrderMember.objects.get(pk=member.pk).delete()
+
+        # Creates member association
+        students = dict(request.POST)['username']
+        for student in students:
+            order_member = OrderMember()
+            order_member.order = order
+            order_member.order_member = CustomUser.objects.get(pk=student)
+            order_member.save()
+
+    else:
+        data['form_is_valid'] = False
+
+    if form.isUpdate:
+        submit_text = "Update"
+    else:
+        submit_text = "Create"
+
+    context = {
+        'form': form,
+        'action': request.path,
+        'submit': submit_text
+    }
+
+    data['html_form'] = render_to_string('materials/includes/multiselect_form.html', context, request=request)
+    return JsonResponse(data)
+
+
+# pk: Order
+def misc_order_edit(request, pk):
+    return course_order_edit(request, pk)
+
+
+def misc_order_add(request):
+    if request.method == 'POST':
+        form = CourseOrderAdd(False, request.POST)
+    else:
+        form = CourseOrderAdd(False)
+
+    return misc_order_save(request, form)

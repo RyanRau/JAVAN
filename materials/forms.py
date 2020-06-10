@@ -66,6 +66,27 @@ class ItemAddForm(forms.ModelForm):
 
 ########################################################################################
 # Course forms
+class CourseCreateForm(forms.Form):
+    course_code = forms.CharField(required=True)
+    course_name = forms.CharField(required=True)
+    master_teacher = forms.ModelChoiceField(CustomUser.objects.filter(Q(groups__name='Master Teacher')))
+    username = forms.ModelMultipleChoiceField(label='Students', queryset=CustomUser.objects.none(),
+                                              widget=Select2MultipleWidget(), required=True)
+
+    class Meta:
+        model = CustomUser
+        fields = ('username',)
+        widgets = {
+            'username': Select2MultipleWidget()
+        }
+
+    def __init__(self, isUpdate, *args, **kwargs):
+        self.isUpdate = isUpdate
+        super(CourseCreateForm, self).__init__(*args, **kwargs)
+        self.field_order = ['course_code', 'course_name', 'master_teacher' 'username']
+        self.fields['username'].queryset = CustomUser.objects.all()
+
+
 class CourseOrderAdd(forms.Form):
     order_number = forms.IntegerField(required=True)
     username = forms.ModelMultipleChoiceField(label='Students', queryset=CustomUser.objects.none(),
@@ -79,6 +100,7 @@ class CourseOrderAdd(forms.Form):
         }
 
     def __init__(self, isUpdate, *args, **kwargs):
+        self.isUpdate = isUpdate
         super(CourseOrderAdd, self).__init__(*args, **kwargs)
         self.field_order = ['order_number', 'username']
         self.fields['order_number'].widget.attrs['readonly'] = isUpdate

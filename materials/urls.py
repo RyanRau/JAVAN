@@ -18,6 +18,14 @@ urlpatterns = [
     path('order/<int:pk>/status/<int:status_id>/<int:redir>/', status_views.order_status, name='order-status'),
 
     ########################################################################################
+    # Misc urls
+    # Kiosk view
+    path('kiosk/', views.kiosk, name='kiosk'),
+
+    # Denied view
+    # path('denied/', views.denied, name='denied'),
+
+    ########################################################################################
     # Urls for ajax
     path('items', helpers.item_list, name="item-list"),
 
@@ -44,5 +52,8 @@ urlpatterns = [
     path('course/<int:pk>/order/add', form_views.course_order_add, name='course-order-add'),
     path('course/order/<int:pk>/edit', form_views.course_order_edit, name='course-order-edit'),
 
+    # Create new misc order assigned to master teacher
+    path('misc/order/add', form_views.misc_order_add, name='misc-order-add'),
+    path('misc/order/<int:pk>/edit', form_views.misc_order_edit, name='misc-order-edit'),
 
 ]
