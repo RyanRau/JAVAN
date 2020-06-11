@@ -104,7 +104,7 @@ def get_corresponding_courses(orders):
 
 def get_course_members(course_id):
     members = []
-    for m in CourseMember.objects.filter(order=course_id):
+    for m in CourseMember.objects.filter(course=course_id):
         members.append(m)
 
     return members

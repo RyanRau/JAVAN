@@ -48,6 +48,7 @@ urlpatterns = [
 
     ############## Courses ################
     path('course/create', form_views.course_create, name='course-create'),
+    path('course/<int:pk>/edit', form_views.course_edit, name='course-edit'),
     # Create new order for course
     path('course/<int:pk>/order/add', form_views.course_order_add, name='course-order-add'),
     path('course/order/<int:pk>/edit', form_views.course_order_edit, name='course-order-edit'),

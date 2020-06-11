@@ -288,6 +288,27 @@ def course_create(request):
     return course_save(request, form)
 
 
+def course_edit(request, pk):
+    members = []
+    for m in get_course_members(pk):
+        members.append(m.course_member.pk)
+
+    course = Course.objects.get(pk=pk)
+
+    init_content = {
+        'course_code': course.code,
+        'course_name': course.name,
+        'master_teacher': course.teacher,
+        'username': members
+    }
+    if request.method == 'POST':
+        form = CourseCreateForm(True, request.POST)
+    else:
+        form = CourseCreateForm(True, initial=init_content)
+
+    return course_save(request, form)
+
+
 def course_order_save(request, form, course_pk=None):
     data = dict()
     if request.method == 'POST':
