@@ -42,6 +42,19 @@
         $(document).on('click',function(){
 	        $('.collapse').collapse('hide');
         })
+
+        function pinCheck(){
+            // TODO: make secure
+            var correct = "1234"
+            var pin = prompt("Please enter workstudy pin:")
+
+            if (pin == correct){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
     </script>
 
 </head>
@@ -111,6 +124,10 @@
                                 <li>{{ item.quantity }} - {{ item.item }}: {{ item.other_notes }}</li>
                                 {% endif %}
                             {% endfor %}
+
+                            <form onsubmit="return pinCheck()" action="{% url 'order-status' order.number 4 1 %}">
+                                <button class="btn btn-red btn-lg" type="submit">Fill Order</button>
+                            </form>
                         </div>
 
                         <hr style="width: 80%">
