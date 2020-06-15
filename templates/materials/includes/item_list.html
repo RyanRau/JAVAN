@@ -17,9 +17,14 @@
         <!-- flag 1: admin list -->
             {% elif flag == '1' %}
                 <button class="btn btn-red btn-lg js-form-load"
-                        style="margin-top: -30px"
+                        style="margin-top: -5px"
                         data-url="{% url 'item-edit' item.id %}">
                     Edit
+                </button>
+                <button class="btn btn-red btn-lg js-form-load"
+                        style="margin-top: 0px"
+                        data-url="{% url 'item-delete' item.id %}">
+                    Delete
                 </button>
         <!-- flag else: view only list -->
             {% else %}

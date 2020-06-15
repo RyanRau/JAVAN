@@ -210,6 +210,18 @@ def item_edit(request, pk):
     return save_generic_form(request, form, 'materials/includes/generic_modal_form.html', context)
 
 
+def item_delete(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+    data = dict()
+    if request.method == 'POST':
+        item.delete()
+        data['form_is_valid'] = True
+    else:
+        context = {'item': item}
+        data['html_form'] = render_to_string('materials/includes/item_delete.html', context, request=request)
+    return JsonResponse(data)
+
+
 ########################################################################################
 # Course related forms
 def course_save(request, form, course_pk=None):

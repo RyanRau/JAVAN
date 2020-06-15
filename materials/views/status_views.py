@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from materials.flows import *
 from materials.trello import *
+from materials.views.helpers import *
 # from materials.txt_logger import *
 
 
@@ -48,13 +49,15 @@ def order_status_change(order_id, status_id, url):
         if status_id is 4:
             delete_labels(order_id)
             add_label(order_id, "FILLED", "yellow")
-            sendEmail(str(order.owner.email),
-                      "Your Order has been Filled!",
-                      email_filled_message)
-            if order.co_owner:
-                sendEmail(str(order.co_owner.email),
-                          "Your Order has been Filled!",
-                          email_filled_message)
+
+            order_members = get_order_members(order_id)
+
+            for member in order_members:
+                if member.order_member.email:
+                    sendEmail(member.order_member.email,
+                              "Your Order has been Filled",
+                              email_filled_message)
+
     # 5 Self Filled
         if status_id is 5:
             if current_status <= 1:  # Checks if order has been placed yet
@@ -82,7 +85,6 @@ def order_status_change(order_id, status_id, url):
             add_label(order_id, "EMPTIED", "black")
     # 9 Done
         if status_id is 9:
-
 
             delete_labels(order_id)
             add_label(order_id, "OUT", "orange")

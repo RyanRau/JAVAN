@@ -85,8 +85,17 @@ def create_description(pk, url):
     returned_url = "http://" + url + "/materials/order/" + order_num + "/status/7/0"
     emptied_url = "http://" + url + "/materials/order/" + order_num + "/status/8/0"
 
-    description = "Course Information: " + order.course.name + order.course.teacher.first_name + " " + \
-                  order.course.teacher.last_name + "\n" \
+    if order.course:
+        master_teacher = "Course Information: " + order.course.name  + "\n" \
+                         "Master teacher: " + order.course.teacher.first_name + " " + \
+                         order.course.teacher.last_name + "\n"
+    elif order.master_teacher:
+        master_teacher = "Master teacher: " + order.master_teacher.first_name + " " + \
+                         order.master_teacher.last_name + "\n"
+    else:
+        master_teacher = "Master Teacher: ERROR " + "\n"
+
+    description = master_teacher + \
                   "Student Name(s): " + ', '.join(member_names) + "\n" \
                   "Student Email(s): " + ', '.join(member_emails) + "\n" \
                   "[FILL](" + filled_url + ") [OUT](" + out_url + ") " \

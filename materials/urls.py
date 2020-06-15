@@ -45,6 +45,7 @@ urlpatterns = [
     # Item add/edit/delete
     path('item/add', form_views.item_add, name='item-add'),
     path('item/<int:pk>/edit', form_views.item_edit, name='item-edit'),
+    path('item/<int:pk>/delete', form_views.item_delete, name='item-delete'),
 
     ############## Courses ################
     path('course/create', form_views.course_create, name='course-create'),
