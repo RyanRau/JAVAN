@@ -164,4 +164,10 @@
         </div>
     </div>
 
+    <script>
+        $("#modal-form").on('hide.bs.modal', function (e) {
+            refreshItems()
+        })
+    </script>
+
 {% endblock body %}

@@ -23,12 +23,16 @@ class PickupForm(forms.ModelForm):
     pickup_time = forms.TimeField(required=True)
     pickup_time.widget = TimeInput()
 
+    return_date = forms.DateField(required=True)
+    return_date.widget = DateInput()
+
     class Meta:
         model = Order
-        fields = ('pickup_date', 'pickup_time', 'lesson_date', 'lesson_start_time', 'lesson_end_time')
+        fields = ('pickup_date', 'pickup_time', 'return_date', 'lesson_date', 'lesson_start_time', 'lesson_end_time')
         widgets = {
             'pickup_date': DateInput(),
             'pickup_time': TimeInput(),
+            'return_date': DateInput(),
             'lesson_date': DateInput(),
             'lesson_start_time': TimeInput(),
             'lesson_end_time': TimeInput()

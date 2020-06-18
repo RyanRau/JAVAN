@@ -226,6 +226,7 @@ def item_delete(request, pk):
 # Course related forms
 def course_save(request, form, course_pk=None):
     data = dict()
+    course = None
     if request.method == 'POST':
         # Creates new order
         if form.isUpdate is False:
@@ -251,14 +252,14 @@ def course_save(request, form, course_pk=None):
         # Updates Course
         else:
             if course_pk:
-                course = Order.objects.get(pk=course_pk)
+                course = Course.objects.get(pk=course_pk)
 
                 data['form_is_valid'] = True
 
                 # Deletes members
-                members = get_order_members(course_pk)
+                members = get_course_members(course_pk)
                 for member in members:
-                    OrderMember.objects.get(pk=member.pk).delete()
+                    CourseMember.objects.get(pk=member.pk).delete()
             else:
                 data['form_is_valid'] = False
 
@@ -318,7 +319,7 @@ def course_edit(request, pk):
     else:
         form = CourseCreateForm(True, initial=init_content)
 
-    return course_save(request, form)
+    return course_save(request, form, pk)
 
 
 def course_order_save(request, form, course_pk=None):

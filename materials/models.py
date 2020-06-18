@@ -102,6 +102,8 @@ class Order(models.Model):
     pickup_date = models.DateField(null=True, blank=True)
     pickup_time = models.TimeField(null=True, blank=True)
 
+    return_date = models.DateField(null=True, blank=True)
+
     # TODO: Abstract out to lesson table
     lesson_date = models.DateField(null=True, blank=True)
     lesson_start_time = models.TimeField(null=True, blank=True)

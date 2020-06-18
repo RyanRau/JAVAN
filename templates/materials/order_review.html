@@ -85,7 +85,7 @@
 {#                <p>School: {{ order.school }}</p>#}
 {#                <p>Teacher: {{ order.teacher }}</p>#}
 
-                <h1>Pickup Info</h1>
+                <h1>Pickup & Return Info</h1>
                 <hr>
                 <p>Pickup Time: {{ order.pickup_date }} @ {{ order.pickup_time }}
                     <a class="aBack js-form-load"
@@ -94,6 +94,7 @@
                         <i class="material-icons">edit</i>
                     </a>
                 </p>
+                <p>Return Date: {{ order.return_date }}</p>
             </div>
 
             <!-- Order Content (Cart) -->

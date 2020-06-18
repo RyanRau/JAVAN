@@ -120,10 +120,10 @@ def get_complete_course(course_id):
 
     course.course = get_object_or_404(Course, pk=course_id)
 
-    members = CourseMember.objects.filter(course_id=course_id)
-    course.members = []
-    for member in members:
-        course.members.append(CustomUser.objects.get(pk=member.id))
+    # members = CourseMember.objects.filter(course_id=course_id)
+    course.members = get_course_members(course_id)
+    # for member in members:
+    #     course.members.append(CustomUser.objects.get(pk=member.id))
 
     orders = Order.objects.filter(course=course.course)
     course.orders = []

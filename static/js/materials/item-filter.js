@@ -31,7 +31,7 @@ function checkboxChange(){
     getItems();
 }
 
-function refresh() {
+function refreshItems() {
     getItems();
 }
 
