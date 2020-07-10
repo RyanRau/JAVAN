@@ -1,3 +1,5 @@
+from datetime import timedelta, datetime
+
 from django.db import models
 from django.conf import settings
 
@@ -13,7 +15,6 @@ class Book(models.Model):
         return self.title
 
 
-# TODO: trello card things
 class Checkout(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, null=False)
     user_checkout = models.ForeignKey(
@@ -23,4 +24,9 @@ class Checkout(models.Model):
         null=False
     )
     checkout_date = models.DateField(null=True, blank=True)
+    return_date = models.DateField(null=True, blank=True)
     trello_id = models.CharField(max_length=50, blank=True)
+
+
+
+

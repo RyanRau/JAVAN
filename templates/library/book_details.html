@@ -36,7 +36,7 @@
 
         <p><b>Category:</b>
         <br>{{ book.category }}</p>
-
+        {% if request.user.is_authenticated %}
         {% load widget_tweaks %}
 
         {% for field in form %}
@@ -50,7 +50,7 @@
         {% endfor %}
 
         {{ error }}
-
+        {% endif %}
     </div>
 
     <div class="modal-footer">

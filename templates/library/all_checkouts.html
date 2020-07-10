@@ -5,7 +5,7 @@
 {% block head %}
     {% load static from staticfiles %}
     <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
-    <script src="{% static 'js/materials/item-filter.js' %}"></script>
+    <script src="{% static 'js/library/book-filter.js' %}"></script>
     <script>
         setFlag(0);
         getItems("");
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        {#        main stuff #}
+
         <div class="row h-100">
                         <div class="col-lg-3 bg-white ">
                         </div>
@@ -49,34 +49,57 @@
                     </div>
                 </form>
 
+{#            TODO: maybe make a drop down as well idk it just looks kinda ugly#}
                 <hr>
-                {#                    checkouts #}
-            {#                       ##PROBLEM  #}
-{#                            idk just change this to something better #}
                 <div class="row">
                     {% for checkout in checkouts %}
                         <span style="width:72.5%;
                              display: inline-block;
                              margin-left: 7.5%;">
-                    <h3>{{ checkout.book.title }}</h3>
-                    <h5>Checked out by: {{ checkout.user_checkout.first_name }} {{ checkout.user_checkout.last_name }}</h5>
-                    <small>Checked out: {{ checkout.checkout_date }}</small> <br>
-                         </span>
+                            <h3>{{ checkout.book.title }}</h3>
+                            <h5>Checked out by: {{ checkout.user_checkout.first_name }} {{ checkout.user_checkout.last_name }}</h5>
+                            <small>Checked out: {{ checkout.checkout_date }}</small> <br>
+                            <small>Due: {{ checkout.return_date }}</small> <br>
+                        </span>
 
-                        <span style="width:10%;
-              display: inline-block;">
-            <button class="btn btn-red btn-lg"
-                    style="margin-top: 30px"
-                    onclick="location.href='{% url 'delete-checkout' checkout.id %}'">
-                Checkin</button>
-        </span>
+                        <span style="width:10%; display: inline-block;">
+                            <button class="btn btn-red btn-lg"
+                                    style="margin-top: 30px"
+                                    onclick="location.href='{% url 'delete-checkout' checkout.id %}'">
+                                Checkin</button>
+                            <button type="button"
+                        class="btn btn-warning btn-sm js-form-load d-flex justify-content-center align-content-between inBlock"
+                        data-url="{% url 'edit-checkout' checkout.id %}"
+                        style="color:white; display: inline-block">
+                    <i class="material-icons">edit</i>
+                </button>
+                        </span>
+{#                        <span style="width:10%; display: inline-block;">#}
+{#                            <div class="dropdown">#}
+{#                                <button style="margin-top: 30px" class="btn btn-red dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                                    Options#}
+{#                                </button>#}
+{#                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">#}
+{#                                    <button class="dropdown-item btn"#}
+{#                                            onclick="location.href='{% url 'delete-checkout' checkout.id %}'">#}
+{#                                        Checkin</button>#}
+{#                                    <button class="btn dropdown-item js-form-load"#}
+{#                                            data-url="{% url 'edit-checkout' checkout.id %}">Edit Checkout</button>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </span>#}
                         <hr style="width:85%">
                     {% endfor %}
                 </div>
             </div>
 
-                        <div class="col-lg-3 col-md-3 bg-white">
-                        </div>
+            <div class="col-lg-3 col-md-3 bg-white">
+            </div>
+        </div>
+    </div>
+        <div class="modal fade" id="modal-form">
+        <div class="modal-dialog">
+            <div class="modal-content"></div>
         </div>
     </div>
 {% endblock body %}
