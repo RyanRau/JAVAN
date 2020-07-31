@@ -56,6 +56,9 @@
                         <span style="width:72.5%;
                              display: inline-block;
                              margin-left: 7.5%;">
+                        {% if checkout.is_over_due %}
+                            <i class="material-icons">warning</i>
+                            {%  endif %}
                             <h3>{{ checkout.book.title }}</h3>
                             <h5>Checked out by: {{ checkout.user_checkout.first_name }} {{ checkout.user_checkout.last_name }}</h5>
                             <small>Checked out: {{ checkout.checkout_date }}</small> <br>
@@ -63,31 +66,19 @@
                         </span>
 
                         <span style="width:10%; display: inline-block;">
-                            <button class="btn btn-red btn-lg"
+{#                        this delete probably isnt the best way to do this #}
+                            <button class="btn btn-red btn-sm" title="Checkin"
                                     style="margin-top: 30px"
                                     onclick="location.href='{% url 'delete-checkout' checkout.id %}'">
-                                Checkin</button>
-                            <button type="button"
-                        class="btn btn-warning btn-sm js-form-load d-flex justify-content-center align-content-between inBlock"
+                                <i class="material-icons">check_box</i>
+                                </button>
+                            <button type="button" title="Edit"
+                        class="btn btn-red btn-sm js-form-load d-flex justify-content-center align-content-between inBlock"
                         data-url="{% url 'edit-checkout' checkout.id %}"
                         style="color:white; display: inline-block">
                     <i class="material-icons">edit</i>
                 </button>
                         </span>
-{#                        <span style="width:10%; display: inline-block;">#}
-{#                            <div class="dropdown">#}
-{#                                <button style="margin-top: 30px" class="btn btn-red dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#                                    Options#}
-{#                                </button>#}
-{#                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">#}
-{#                                    <button class="dropdown-item btn"#}
-{#                                            onclick="location.href='{% url 'delete-checkout' checkout.id %}'">#}
-{#                                        Checkin</button>#}
-{#                                    <button class="btn dropdown-item js-form-load"#}
-{#                                            data-url="{% url 'edit-checkout' checkout.id %}">Edit Checkout</button>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </span>#}
                         <hr style="width:85%">
                     {% endfor %}
                 </div>

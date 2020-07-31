@@ -1,4 +1,4 @@
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, date
 
 from django.db import models
 from django.conf import settings
@@ -26,6 +26,10 @@ class Checkout(models.Model):
     checkout_date = models.DateField(null=True, blank=True)
     return_date = models.DateField(null=True, blank=True)
     trello_id = models.CharField(max_length=50, blank=True)
+
+    @property
+    def is_over_due(self):
+        return date.today() > self.return_date
 
 
 

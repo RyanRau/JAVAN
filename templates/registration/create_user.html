@@ -1,6 +1,6 @@
 {% extends "../base/base.html" %}
 
-{% block title %} Login {% endblock %}
+{% block title %} Change Password {% endblock %}
 
 {% block head %}
     {% load static from staticfiles %}
@@ -9,23 +9,67 @@
 
 {% block body %}
     <div class="container-fluid h-100">
-        <div class="row h-100 justify-content-center align-items-center">
+        <div class="row h-100">
             <div class="col-4"></div>
 
-                <div class="col-sm-4 align-self-center" id="login-box">
-                    <br>
-                    <h2>JAVAN</h2>
-                    <p>Create Account</p>
-                    <hr style="width: 80%">
+            <div class="col-sm-4 align-self-center" id="login-box">
+                <br>
+                <h2>Signup</h2>
+                <hr style="width: 80%">
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign up</button>
-  </form>
-                </div>
+{#TODO: css isn't right#}
+                <form method="post">
+                    {% csrf_token %}
+{#                        {{ form.as_p }}#}
+                    {{ form.non_field_errors }}
+                    <div class="fieldWrapper">
+                        {{ form.username.errors }}
+                        <label for="{{ form.username.id_username }}">Username: </label>
+                        {{ form.username }}
+                    </div>
+                    <div class="fieldWrapper">
+                        {{ form.email.errors }}
+                        <label for="{{ form.email.id_email }}">School Email: &nbsp;&nbsp;</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="fieldWrapper">
+                        {{ form.password.errors }}
+                        <label for="{{ form.password.id_password1 }}">Password:</label>
+                        {{ form.password1 }}
+                    </div>
+                    <div class="fieldWrapper">
+                        {{ form.password.errors }}
+                        <label for="{{ form.password.id_password2 }}">Confirm Password: &nbsp;&nbsp;</label>
+                        {{ form.password2 }}
+                    </div>
+                    <div class="fieldWrapper">
+                        {{ form.classification.errors }}
+                        <label for="{{ form.classification.id_classification }}">Classification: &nbsp;&nbsp;</label>
+                        {{ form.classification }}
+                    </div>
+                    <div class="fieldWrapper">
+                        {{ form.first_name.errors }}
+                        <label for="{{ form.first_name.id_first_name }}">First Name: &nbsp;&nbsp;</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="fieldWrapper">
+                        {{ form.last_name.errors }}
+                        <label for="{{ form.last_name.id_last_name }}">Last Name: &nbsp;&nbsp;</label>
+                        {{ form.last_name }}
+                    </div>
+                    <button class="btn btn-primary" type="submit">Sign up</button>
+                </form>
+
+                {% for field in form %}
+                    {{ field.errors }}
+                {% endfor %}
+                </form>
+            </div>
 
             <div class="col-4"></div>
         </div>
     </div>
 {% endblock body %}
+
+
+
