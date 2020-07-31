@@ -1,0 +1,31 @@
+{% extends "../base/base.html" %}
+
+{% block title %} Login {% endblock %}
+
+{% block head %}
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/registration/style.css' %}">
+{% endblock head %}
+
+{% block body %}
+    <div class="container-fluid h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-4"></div>
+
+                <div class="col-sm-4 align-self-center" id="login-box">
+                    <br>
+                    <h2>JAVAN</h2>
+                    <p>Create Account</p>
+                    <hr style="width: 80%">
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Sign up</button>
+  </form>
+                </div>
+
+            <div class="col-4"></div>
+        </div>
+    </div>
+{% endblock body %}
