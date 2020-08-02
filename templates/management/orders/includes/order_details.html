@@ -1,0 +1,69 @@
+<style>
+    span[status]{
+        border-radius: 0.25em;
+    }
+    span[status = '0']{
+        background-color: #52b33e;
+    }
+    span[status = '1']{
+        background-color: #52b33e;
+    }
+    span[status = '2']{
+        background-color: #52b33e;
+    }
+    span[status = '3']{
+        background-color: #b45cd8;
+    }
+    span[status = '4']{
+        background-color: #eed009;
+    }
+    span[status = '5']{
+        background-color: #eed009;
+    }
+    span[status = '6']{
+        background-color: #fd8d16;
+    }
+    span[status = '7']{
+        background-color: #e34337;
+    }
+    span[status = '8']{
+        background-color: #283450;
+    }
+    span[status = '9']{
+        background-color: #52b33e;
+    }
+</style>
+
+<div>
+    <div class="row">
+        <div class="col">
+            <h1> Order #: {{ order.number }}</h1>
+            <h3>
+                <span status = '{{ order.status }}'>
+                    {{ status }}
+                </span>
+            </h3>
+        </div>
+        <div class="col">
+            <div class="float-right">
+                <button type="button"
+                    class="btn btn-red btn-lg js-form-load"
+                    data-url='{% url 'management-forms-order-details' order.number %}'>
+                Edit
+                </button>
+            </div>
+        </div>
+        <hr width="100%">
+    </div>
+
+    <div class="row">
+        <div>
+            <h5>Master teacher: {{ order.master_teacher.first_name }} {{ order.master_teacher.last_name }}</h5>
+            <h5>Course: {{ order.course.name }}</h5>
+            <h5>Pick Up: {{ order.pickup_date }} @ {{ order.pickup_time }}</h5>
+            <h5>Return: {{ order.return_date}}</h5>
+            <h5>Other Notes: {{ order.other_notes }}</h5>
+        </div>
+    </div>
+
+</div>

@@ -27,6 +27,7 @@ urlpatterns = [
     path('documentation/', include('documentation.urls')),
     path('materials/', include('materials.urls')),
     path('library/', include('library.urls')),
+    path('management/', include('management.urls')),
 
     path('select2/', include('django_select2.urls')),
 ]

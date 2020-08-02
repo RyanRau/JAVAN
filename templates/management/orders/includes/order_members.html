@@ -1,0 +1,27 @@
+<div class="row w100">
+    <div class="col">
+        <h1>Order Members</h1>
+    </div>
+    <div class="col">
+        <div class="float-right">
+            <button type="button"
+                class="btn btn-red btn-lg js-form-load"
+                data-url="{% url 'course-order-edit' order.number %}">
+            Edit
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <hr width="95%">
+    {%  for member in members  %}
+    <div class="col-auto mb-3">
+        <div class="card" style="width: 15rem; height: 15rem;">
+            <div class="card-body">
+                <h3 class="card-title">{{ member.first_name }} {{ member.last_name }}</h3>
+                <p>Email: {{ member.email }}</p>
+            </div>
+        </div>
+    </div>
+{%  endfor %}
+</div>

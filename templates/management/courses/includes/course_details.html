@@ -1,0 +1,24 @@
+<div>
+    <div class="row">
+        <div class="col">
+            <h1>{{ course.code }} - {{ course.name }}</h1>
+        </div>
+        <div class="col">
+            <div class="float-right">
+                <button type="button"
+                    class="btn btn-red btn-lg js-form-load">
+{#                    data-url='{% url 'management-forms-order-details' order.number %}'>#}
+                Edit
+                </button>
+            </div>
+        </div>
+        <hr width="100%">
+    </div>
+
+    <div class="row">
+        <div>
+            <h5>Master teacher: {{ course.teacher.first_name }} {{ course.teacher.last_name }}</h5>
+        </div>
+    </div>
+
+</div>

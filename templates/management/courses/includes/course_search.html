@@ -1,0 +1,18 @@
+{% for complete_course in complete_courses %}
+    <div style="display: inline-block; width: 50%;">
+        <h3>Course: {{ complete_course.course.code }} - {{ complete_course.course.name }}</h3>
+            <h5 class="secondary-text">Master teacher: {{ complete_course.course.master_teacher.first_name }}
+                {{ complete_course.course.master_teacher.last_name }}
+            </h5>
+    </div>
+
+    <div style="display: inline-block; float: right; margin-top: 30px;">
+        <button type="button"
+                class="btn btn-red btn-lg"
+                onclick="location.href='{% url 'management-course-view' complete_course.course.pk %}'">
+            Details
+        </button>
+    </div>
+
+    <hr style="width: 100%">
+{% endfor %}

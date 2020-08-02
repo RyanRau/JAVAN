@@ -1,0 +1,25 @@
+{% for content in contents %}
+    <tr>
+        <td style="width: 5%">{{ content.quantity }}</td>
+        <td style="width: 60%">{{ content.item }}</td>
+        <td style="width: 100%">
+            <div class="btn-group">
+                <button type="button"
+                        class="btn btn-warning btn-sm js-form-load d-flex justify-content-center align-content-between inBlock"
+                        ="{% url 'content-edit' content.id %}"
+                        style="color:white; display: inline-block">
+                    <i class="material-icons">edit</i>
+                </button>
+                <button type="button"
+                        class="btn btn-danger btn-sm js-form-load d-flex justify-content-center align-content-between inBlock"
+                        data-url="{% url 'content-delete' content.id %}">
+                    <i class="material-icons">delete</i>
+                </button>
+            </div>
+        </td>
+    </tr>
+{% empty %}
+    <tr>
+        <td colspan="8" class="text-center">Empty</td>
+    </tr>
+{% endfor %}
