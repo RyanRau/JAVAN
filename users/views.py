@@ -1,7 +1,9 @@
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash, authenticate, login
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.shortcuts import render, redirect
+
+from .forms import CustomUserCreationForm
 from .models import *
 
 
@@ -25,3 +27,19 @@ def change_password(request):
     return render(request, 'registration/change_password.html', {
         'form': form
     })
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+
+            return redirect('library-index') #random redirect didnt know where to
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'registration/create_user.html', {'form': form})

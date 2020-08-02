@@ -1,25 +1,35 @@
 {% for book in books %}
-<span style="width:72.5%;
+    <span style="width:72.5%;
                      display: inline-block;
                      margin-left: 7.5%;">
-            <h3>{{ book.title }}</h3>
-            <h5>{{ book.author }}</h5>
-            <small>{{ book.category }}</small> <br>
-            <small>{{ book.isbn }}</small>
-        </span>
-<span style="width:10%;
-              display: inline-block;">
-            <button class="btn btn-red btn-lg js-form-load"
-                    style="margin-top: -30px"
-                    data-url="{% url 'book-details' book.id %}">
-                Details</button>
-                    <button type="button"
-                        class="btn btn-warning btn-sm js-form-load d-flex justify-content-center align-content-between inBlock"
-                        data-url="{% url 'edit-book' book.id %}"
-                        style="color:white; display: inline-block">
-                    <i class="material-icons">edit</i>
-                </button>
-        </span>
+        <h3>{{ book.title }}</h3>
+        <h5>{{ book.author }}</h5>
+        <small>{{ book.category }}</small> <br>
+        <small>{{ book.isbn }}</small>
+    </span>
 
+{#    TODO: so like just button for details for non auth, and then for checkouts#}
+    <span style="width:10%; display: inline-block;">
+        <div class="dropdown">
+            <button style="margin-top: -30px" class="btn btn-red dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Options
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <button class="dropdown-item btn js-form-load"
+                    data-url="{% url 'book-details' book.id %}">
+                    Details</button>
+{#                TODO: redo create checkout form for this#}
+                {% if request.user.classification > 1 %}
+                    <button class="btn dropdown-item js-form-load"
+                        data-url="{% url 'new-checkout' book.id %}">Create Checkout</button>
+                    <button
+                        class="btn dropdown-item js-form-load"
+                        data-url="{% url 'edit-book' book.id %}">
+                    Edit Book
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+    </span>
 <hr style="width:85%">
 {% endfor %}

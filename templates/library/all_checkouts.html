@@ -1,0 +1,96 @@
+{% extends "../base/base.html" %}
+
+{% block title %} Checkouts {% endblock %}
+
+{% block head %}
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
+    <script src="{% static 'js/library/book-filter.js' %}"></script>
+    <script>
+        setFlag(0);
+        getItems("");
+    </script>
+
+{% endblock head %}
+
+{% block body %}
+    {% include "../base/includes/nav.html" %}
+    <div class="container-fluid container-offset" style="height: 1000px">
+        <!-- top bar -->
+        <div class="row topBar bg-white">
+            <div class="row inTopBar">
+                <div class="col-lg-12 w100">
+                    <p class="inBlock "><a class="aBack d-flex justify-content-center align-content-between"
+                                           href="{% url 'library-index' %}">
+                        <i class="material-icons">chevron_left</i>Return to Library Home
+                    </a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row h-100">
+                        <div class="col-lg-3 bg-white ">
+                        </div>
+
+            <!-- middle col -->
+            <div class="col-lg-6 bg-white">
+                <h1>Checkouts</h1>
+
+                <!-- New search bar -->
+                <form onsubmit="filter(this); return false;">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search"
+                               name="term" oninput="change(value)">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit" value="Search">
+                                <i class="material-icons">search</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+{#            TODO: maybe make a drop down as well idk it just looks kinda ugly#}
+                <hr>
+                <div class="row">
+                    {% for checkout in checkouts %}
+                        <span style="width:72.5%;
+                             display: inline-block;
+                             margin-left: 7.5%;">
+                        {% if checkout.is_over_due %}
+                            <i class="material-icons">warning</i>
+                            {%  endif %}
+                            <h3>{{ checkout.book.title }}</h3>
+                            <h5>Checked out by: {{ checkout.user_checkout.first_name }} {{ checkout.user_checkout.last_name }}</h5>
+                            <small>Checked out: {{ checkout.checkout_date }}</small> <br>
+                            <small>Due: {{ checkout.return_date }}</small> <br>
+                        </span>
+
+                        <span style="width:10%; display: inline-block;">
+{#                        this delete probably isnt the best way to do this #}
+                            <button class="btn btn-red btn-sm" title="Checkin"
+                                    style="margin-top: 30px"
+                                    onclick="location.href='{% url 'delete-checkout' checkout.id %}'">
+                                <i class="material-icons">check_box</i>
+                                </button>
+                            <button type="button" title="Edit"
+                        class="btn btn-red btn-sm js-form-load d-flex justify-content-center align-content-between inBlock"
+                        data-url="{% url 'edit-checkout' checkout.id %}"
+                        style="color:white; display: inline-block">
+                    <i class="material-icons">edit</i>
+                </button>
+                        </span>
+                        <hr style="width:85%">
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 bg-white">
+            </div>
+        </div>
+    </div>
+        <div class="modal fade" id="modal-form">
+        <div class="modal-dialog">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+{% endblock body %}
