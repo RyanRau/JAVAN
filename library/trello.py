@@ -18,7 +18,9 @@ def create_card_chk(pk, url):
     card_name = "Checkout: " + checkout.book.title
     description = str(create_description_chk(pk, url))
     querystring = {
-        "name": card_name, "idList": library_list_id, "keepFromSource": "all",
+        "name": card_name,
+        "idList": library_list_id,
+        "keepFromSource": "all",
         "desc": description,
         "due": checkout.return_date,
         "key": trello_key,
@@ -51,7 +53,7 @@ def archive_chk(pk):
 
     url = "https://api.trello.com/1/cards/" + checkout.trello_id
     querystring = {
-        "idList": archive_list_id,
+        "idList": library_archive_list_id,
         "idBoard": archive_board_id,
         "key": trello_key,
         "token": trello_token
