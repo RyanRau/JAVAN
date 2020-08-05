@@ -22,4 +22,11 @@ urlpatterns = [
     path('courses/<int:pk>', views.course_view, name='management-course-view'),
 
     path('courses/api/course-search', api_views.course_search, name='management-api-course-search'),
+
+
+    # Items
+    path('items/', views.item_list, name='management-item-list'),
+    # path('courses/<int:pk>', views.course_view, name='management-course-view'),
+
+    path('items/api/items-search', api_views.item_search, name='management-api-item-search'),
 ]

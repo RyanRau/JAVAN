@@ -74,116 +74,116 @@
                         {%  endfor %}
                     </div>
 
-                {% if isElevated %}
-                <!-- Course Responsibilities -->
-                <h1 class="header"> Your Courses </h1>
-                <button type="button"
-                        class="btn btn-red btn-lg js-form-load"
-                        data-url="{% url 'course-create' %}">
-                    Create Course
-                </button>
-                <hr width="90%">
-                {% for course in courses %}
-                <div class="row">
-                    <div class="col-lg-6">
-                        <h1 class="header"> {{ course.course.name }} </h1>
-                                        <button type="button"
-                        class="btn btn-red btn-lg js-form-load"
-                        data-url="{% url 'course-edit' course.course.pk %}">
-                    Edit Course
-                </button>
-                    </div>
-                    <div class="col-lg-5">
-                        <div style="float: right;" data-toggle="collapse" data-target="#drop{{course.course.pk}}">
-                            <i style="font-size: 80px" class="material-icons">keyboard_arrow_down</i>
+{#                {% if isElevated %}#}
+{#                <!-- Course Responsibilities -->#}
+{#                <h1 class="header"> Your Courses </h1>#}
+{#                <button type="button"#}
+{#                        class="btn btn-red btn-lg js-form-load"#}
+{#                        data-url="{% url 'course-create' %}">#}
+{#                    Create Course#}
+{#                </button>#}
+{#                <hr width="90%">#}
+{#                {% for course in courses %}#}
+{#                <div class="row">#}
+{#                    <div class="col-lg-6">#}
+{#                        <h1 class="header"> {{ course.course.name }} </h1>#}
+{#                                        <button type="button"#}
+{#                        class="btn btn-red btn-lg js-form-load"#}
+{#                        data-url="{% url 'course-edit' course.course.pk %}">#}
+{#                    Edit Course#}
+{#                </button>#}
+{#                    </div>#}
+{#                    <div class="col-lg-5">#}
+{#                        <div style="float: right;" data-toggle="collapse" data-target="#drop{{course.course.pk}}">#}
+{#                            <i style="font-size: 80px" class="material-icons">keyboard_arrow_down</i>#}
 {#                            <i style="font-size: 80px" class="material-icons">keyboard_arrow_up</i>#}
-                        </div>
-                    </div>
-                </div>
-
-                <hr width="90%">
-                    <div id="drop{{course.course.pk}}" class="row justify-content-center collapse">
-                        {%  for complete_order in course.orders  %}
-                        <div class="col-auto mb-3">
-                            <div class="card" style="width: 15rem; height: 15rem;">
-                                <div class="card-body">
-                                    <h3 class="card-title">Order #{{ complete_order.order.number }}</h3>
-                                    <p>Status: {{ complete_order.status }} <br/>
-                                       Member(s):
-                                       {% for x in complete_order.members %}
-                                           {{ x }}{% if not forloop.last %}, {% endif %}
-                                       {% endfor %}
-                                    </p>
-
-                                    {% if complete_order.order.status == 0 %}
-                                        <button type="button"
-                                                class="btn btn-red btn-lg js-form-load"
-                                                data-url="{% url 'pickup-update' complete_order.order.number %}">
-                                            Start Order
-                                        </button>
-                                    {% elif complete_order.order.status == 1 %}
-                                        <button class="btn btn-red btn-lg"
-                                                onclick="location.href='{% url 'order-view' complete_order.order.number %}'">
-                                            Continue Order
-                                        </button>
-                                    {% elif complete_order.order.status >= 2 and complete_order.order.status <= 5 %}
-                                        <button class="btn btn-red btn-lg"
-                                                onclick="location.href='{% url 'order-view' complete_order.order.number %}'">
-                                            Update Order
-                                        </button>
-                                    {% elif complete_order.order.status >= 6 %}
-                                        <button class="btn btn-red btn-lg"  disabled="true">
-                                            Unavailable
-                                        </button>
-                                    {% endif %}
-
-                                    <button type="button"
-                                                class="btn btn-grey btn-lg js-form-load"
-                                                data-url="{% url 'course-order-edit' complete_order.order.number %}">
-                                            <i class="material-icons">create</i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        {%  endfor %}
-                        <div class="col-auto mb-3">
-                            <div class="card" style="width: 15rem; height: 15rem;">
-                                <div class="card-body">
-                                    <h3 class="card-title">Add new Order</h3>
-                                    <p>
-
-                                        <button type="button"
-                                                class="btn btn-red btn-lg js-form-load"
-                                                data-url="{% url 'course-order-add' course.course.pk %}">
-                                            Add order
-                                        </button>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                {% endfor %}
-
-                <!-- Other order responsibilities -->
-                <h1 class="header"> Misc Orders </h1>
-                <hr width="90%">
-                <div class="row justify-content-center">
-                    {% include 'materials/includes/order_cards.html' %}
-                    <div class="col-auto mb-3">
-                        <div class="card" style="width: 15rem; height: 15rem;">
-                            <div class="card-body">
-                                <h3 class="card-title">Add new Order</h3>
-                                    <button type="button"
-                                            class="btn btn-red btn-lg js-form-load"
-                                            data-url="{% url 'misc-order-add' %}">
-                                        Add order
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{#                <hr width="90%">#}
+{#                    <div id="drop{{course.course.pk}}" class="row justify-content-center collapse">#}
+{#                        {%  for complete_order in course.orders  %}#}
+{#                        <div class="col-auto mb-3">#}
+{#                            <div class="card" style="width: 15rem; height: 15rem;">#}
+{#                                <div class="card-body">#}
+{#                                    <h3 class="card-title">Order #{{ complete_order.order.number }}</h3>#}
+{#                                    <p>Status: {{ complete_order.status }} <br/>#}
+{#                                       Member(s):#}
+{#                                       {% for x in complete_order.members %}#}
+{#                                           {{ x }}{% if not forloop.last %}, {% endif %}#}
+{#                                       {% endfor %}#}
+{#                                    </p>#}
+{##}
+{#                                    {% if complete_order.order.status == 0 %}#}
+{#                                        <button type="button"#}
+{#                                                class="btn btn-red btn-lg js-form-load"#}
+{#                                                data-url="{% url 'pickup-update' complete_order.order.number %}">#}
+{#                                            Start Order#}
+{#                                        </button>#}
+{#                                    {% elif complete_order.order.status == 1 %}#}
+{#                                        <button class="btn btn-red btn-lg"#}
+{#                                                onclick="location.href='{% url 'order-view' complete_order.order.number %}'">#}
+{#                                            Continue Order#}
+{#                                        </button>#}
+{#                                    {% elif complete_order.order.status >= 2 and complete_order.order.status <= 5 %}#}
+{#                                        <button class="btn btn-red btn-lg"#}
+{#                                                onclick="location.href='{% url 'order-view' complete_order.order.number %}'">#}
+{#                                            Update Order#}
+{#                                        </button>#}
+{#                                    {% elif complete_order.order.status >= 6 %}#}
+{#                                        <button class="btn btn-red btn-lg"  disabled="true">#}
+{#                                            Unavailable#}
+{#                                        </button>#}
+{#                                    {% endif %}#}
+{##}
+{#                                    <button type="button"#}
+{#                                                class="btn btn-grey btn-lg js-form-load"#}
+{#                                                data-url="{% url 'course-order-edit' complete_order.order.number %}">#}
+{#                                            <i class="material-icons">create</i>#}
+{#                                    </button>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        {%  endfor %}#}
+{#                        <div class="col-auto mb-3">#}
+{#                            <div class="card" style="width: 15rem; height: 15rem;">#}
+{#                                <div class="card-body">#}
+{#                                    <h3 class="card-title">Add new Order</h3>#}
+{#                                    <p>#}
+{##}
+{#                                        <button type="button"#}
+{#                                                class="btn btn-red btn-lg js-form-load"#}
+{#                                                data-url="{% url 'course-order-add' course.course.pk %}">#}
+{#                                            Add order#}
+{#                                        </button>#}
+{##}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                {% endfor %}#}
+{##}
+{#                <!-- Other order responsibilities -->#}
+{#                <h1 class="header"> Misc Orders </h1>#}
+{#                <hr width="90%">#}
+{#                <div class="row justify-content-center">#}
+{#                    {% include 'materials/includes/order_cards.html' %}#}
+{#                    <div class="col-auto mb-3">#}
+{#                        <div class="card" style="width: 15rem; height: 15rem;">#}
+{#                            <div class="card-body">#}
+{#                                <h3 class="card-title">Add new Order</h3>#}
+{#                                    <button type="button"#}
+{#                                            class="btn btn-red btn-lg js-form-load"#}
+{#                                            data-url="{% url 'misc-order-add' %}">#}
+{#                                        Add order#}
+{#                                    </button>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% endif %}#}
 
 
             </div>

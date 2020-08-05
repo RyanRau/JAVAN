@@ -62,3 +62,13 @@ def course_view(request, pk):
         'members': complete_course.members
     }
     return render(request, "./management/courses/course_view.html", context)
+
+
+@login_required(login_url='/users/login/')
+def item_list(request):
+    items = Item.objects.all()
+
+    context = {
+        'items': items
+    }
+    return render(request, "./management/items/item_list.html", context)

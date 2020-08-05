@@ -98,3 +98,4 @@ def content_delete(request, pk):
         context = {'content': content}
         data['html_form'] = render_to_string('materials/includes/order_content_delete.html', context, request=request)
     return JsonResponse(data)
+

@@ -52,6 +52,7 @@ def order_search(request):
     html = render(request, "management/orders/includes/order_search.html", context=context)
     return HttpResponse(html)
 
+
 def course_search(request):
     query = request.GET.get("query")
     search_terms = query.split(',')
@@ -94,4 +95,18 @@ def course_search(request):
         'complete_courses': complete_courses,
     }
     html = render(request, "management/courses/includes/course_search.html", context=context)
+    return HttpResponse(html)
+
+
+def item_search(request):
+    # TODO: Actual search
+    query = request.GET.get("query")
+    search_terms = query.split(',')
+
+    items = Item.objects.all()
+
+    context = {
+        'items': items,
+    }
+    html = render(request, "management/items/includes/item_search.html", context=context)
     return HttpResponse(html)

@@ -1,0 +1,65 @@
+{% extends "management/base/admin_base.html" %}
+
+{% block title %}JAVAN - Management{% endblock %}
+
+{% block head %}
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="{% static 'js/management/item-search.js' %}"></script>
+    <script>
+        getItems();
+    </script>
+{% endblock head %}
+
+{% block body %}
+    <div class="container-offset">
+        <div class="main">
+
+            <div class="row">
+                <h4 style="margin-left: 15px; margin-top: 15px">
+                    <a href="{% url 'management-index' %}"> Home </a> > Items
+                </h4>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div style="background-color: white; width: 70%; height: 100%; border-radius: 10px; padding: 15px">
+
+                        <h1>Items</h1>
+                        <hr>
+
+                        <form onsubmit="filter(this); return false;">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search"
+                                       name="term" oninput="change(value)">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit" value="Search">
+                                        <i class="material-icons">search</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <hr>
+
+                        <!-- Items -->
+                        <div id="content-list" style="width: 95%;"></div>
+
+                    </div>
+                </div>
+                <!-- TODO: add category sorter -->
+            </div>
+
+        </div>
+
+        <div class="modal fade" id="modal-form">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <script src="{% static 'django_select2/django_select2.js' %}"></script>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock body %}
